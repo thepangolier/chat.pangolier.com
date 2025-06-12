@@ -1,0 +1,64 @@
+@use "@scss/shared/theme" as *;
+
+@mixin sso-button-style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $c-size;
+  padding: 0 20px;
+  border-radius: calc($c-size * 0.5);
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+
+  img {
+    width: 18px;
+    height: 18px;
+    margin: 0 10px 0 0;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+button#google {
+  @include sso-button-style;
+
+  & {
+    background: #131314;
+    color: $bc;
+
+    &:hover {
+      background: #252527;
+    }
+
+    &:active,
+    &.active {
+      background: #343435;
+      box-shadow: 0 0 15px 15px $g-shadow;
+    }
+  }
+}
+
+button#github {
+  @include sso-button-style;
+
+  & {
+    background: #f5f5f5;
+    color: $fc;
+
+    &:hover {
+      background: #eaeaea;
+    }
+
+    &:active,
+    &.active {
+      background: #e0dede;
+      box-shadow: 0 0 15px 15px $g-shadow;
+    }
+  }
+}

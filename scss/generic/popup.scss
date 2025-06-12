@@ -1,0 +1,62 @@
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/panel" as panel;
+
+div.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba($sc, 0.25);
+  backdrop-filter: blur(5px);
+  transition: opacity 0.2s ease-in-out;
+
+  &.popup-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  div.popup-content {
+    width: 100%;
+    max-width: 480px;
+    @include panel.generic;
+
+    h2 {
+      font-size: 24px;
+      font-weight: 400;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &.popup-centered {
+    div.popup-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      input {
+        text-align: center;
+      }
+
+      form {
+        div.form-actions {
+          justify-content: center;
+          padding: 0;
+          margin: 0;
+
+          button {
+            margin: 0 calc($hug * 0.5);
+          }
+        }
+      }
+    }
+  }
+}

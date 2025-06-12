@@ -1,0 +1,96 @@
+@use "sass:color" as color;
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/keyframes" as *;
+@use "@scss/generic/gradient" as gradient;
+
+body {
+  @include gradient.background;
+
+  font-family: $font-copy;
+  color: $fc;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden auto;
+}
+
+div.container,
+section.container {
+  width: 100%;
+  max-width: $app-width;
+  margin: auto;
+
+  &.page {
+    min-height: 100vh;
+    padding: calc($app-header-height + $hug) $hug $hug;
+  }
+
+  &.chat {
+    max-width: $chat-width;
+  }
+}
+
+div#not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+
+  p {
+    font-size: 18px;
+    font-weight: 700;
+    color: $pc;
+  }
+}
+
+a {
+  color: $pc;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: color.adjust($pc, $lightness: 5%);
+  }
+
+  &:active {
+    color: color.adjust($pc, $lightness: 10%);
+  }
+}
+
+svg.icon-spinner {
+  animation: spin 1s linear infinite;
+}
+
+div.s3-image {
+  position: relative;
+
+  div.spinner-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($sc, 0.5);
+    color: $bc;
+    font-size: 18px;
+    pointer-events: none;
+  }
+}
+
+div.expression-editor {
+  div.bn-container {
+    div.bn-editor {
+      opacity: 0;
+      animation: fade-in 0.3s ease-in-out forwards;
+
+      .bn-block-group .bn-block-group .bn-block-outer:not([data-prev-depth-changed])::before {
+        border-left: none;
+      }
+    }
+  }
+}

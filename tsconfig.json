@@ -1,0 +1,68 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "target": "ESNext",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "jsx": "preserve",
+    "strict": true,
+    "strictNullChecks": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@ai/*": [
+        "ai/*"
+      ],
+      "@component/*": [
+        "component/*"
+      ],
+      "@context/*": [
+        "context/*"
+      ],
+      "@assets/*": [
+        "public/assets/*"
+      ],
+      "@scss/*": [
+        "scss/*"
+      ],
+      "@util/*": [
+        "util/*"
+      ],
+      "@action/*": [
+        "action/*"
+      ],
+      "prisma/client": [
+        "prisma/client.ts"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "allowJs": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    ".next/**/*"
+  ]
+}

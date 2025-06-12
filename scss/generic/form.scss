@@ -1,0 +1,147 @@
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/button" as button;
+
+form {
+  padding: $hug;
+  width: 100%;
+
+  label,
+  p {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+  }
+
+  p.form-copy {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0 0 $hug;
+  }
+
+  input,
+  select,
+  textarea {
+    margin: 0 0 $hug;
+  }
+
+  div.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: height 0.2s ease-in-out;
+    padding: 0;
+    height: 0;
+    overflow: hidden;
+    background: $rc;
+    color: $bc;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: calc($c-radius * 0.5);
+
+    &.visible {
+      height: $c-size;
+      margin: 0 0 $hug;
+    }
+  }
+
+  button {
+    @include button.generic;
+
+    & {
+      margin: 0 0 0 auto;
+    }
+  }
+
+  div.form-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 $hug;
+
+    input {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      cursor: pointer;
+    }
+  }
+
+  div.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin: $hug 0 0 0;
+
+    a {
+      font-size: 12px;
+    }
+
+    button,
+    a {
+      margin: 0 0 0 $hug;
+    }
+  }
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: $pc;
+}
+
+@mixin form-input-style {
+  background: $bc;
+  border: 1px solid rgba($sc, 0.25);
+  transition: 0.2s ease-in-out;
+
+  &::placeholder {
+    color: rgba($sc, 0.75);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &:focus {
+    border: 1px solid $sc;
+  }
+
+  &.red {
+    border: 1px solid $rc;
+  }
+
+  &.yellow {
+    border: 1px solid $yc;
+  }
+
+  &.green {
+    border: 1px solid $gc;
+  }
+}
+
+input {
+  display: block;
+  width: 100%;
+  height: $c-size;
+  border-radius: calc($c-radius * 0.5);
+  padding: 0 $hug;
+  outline: none;
+
+  @include form-input-style;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: calc($c-size * 5);
+  border-radius: calc($c-radius * 0.5);
+  padding: $hug;
+  resize: none;
+  outline: none;
+
+  @include form-input-style;
+}

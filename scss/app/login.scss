@@ -1,0 +1,144 @@
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/form";
+@use "@scss/generic/panel" as panel;
+
+div#login,
+div#register,
+div#verify {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+
+  div.login-card {
+    width: 100%;
+    max-width: 480px;
+    @include panel.generic;
+
+    background: rgba($sc, 0.25);
+
+    a {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    div.login-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      div.login-brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        img {
+          width: calc($c-size * 2);
+          height: calc($c-size * 2);
+        }
+
+        h2 {
+          font-weight: 400;
+          font-size: 42px;
+        }
+      }
+
+      p {
+        font-weight: 400;
+        font-size: 18px;
+      }
+    }
+
+    div.login-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0;
+
+      div.login-divider-line {
+        width: calc(50% - calc($hug * 3));
+        height: 1px;
+        background: rgba($pc, 0.5);
+      }
+
+      p {
+        font-weight: 700;
+        font-size: 18px;
+        color: $pc;
+        padding: 0 $hug;
+      }
+    }
+
+    div.login-forms {
+      form {
+        width: 100%;
+        padding: $hug;
+
+        div.register-checkbox {
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+          width: 100%;
+          margin: 0 0 $hug;
+          cursor: pointer;
+
+          input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin: 0 $hug 0 0;
+          }
+
+          label,
+          a {
+            font-size: 14px;
+            display: inline;
+          }
+
+          label {
+            width: calc(100% - 24px - $hug);
+            font-weight: 400;
+          }
+
+          a {
+            text-decoration: underline;
+            font-weight: 700;
+          }
+        }
+
+        button.submit-button {
+          width: 120px;
+
+          svg {
+            font-size: 14px;
+            margin: 0;
+          }
+        }
+      }
+
+      div.login-sso {
+        width: 100%;
+        padding: $hug;
+
+        button {
+          width: 100%;
+          height: $c-size;
+          border-radius: $c-radius;
+          margin: 0 0 $hug;
+
+          &:last-of-type {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}

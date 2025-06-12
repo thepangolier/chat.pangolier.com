@@ -1,0 +1,27 @@
+// Fonts
+$font-header: "Figtree", sans-serif;
+$font-copy: "Figtree", sans-serif;
+
+// Core Colors
+$pc: rgb(98 53 32); // Primary Color
+$sc: rgb(209 179 129); // Secondary Color
+$fc: rgb(18 7 1); // Foreground Color
+$bc: rgb(245 234 227); // Background Color
+$bc-user: rgb(224 202 164); // Background Color for User Prompts
+$bc-model: rgb(225 195 144); // Background Color for Model Prompts
+$panel-bg: rgb(211 186 160); // Panel Background Color
+$g-shadow: rgb(113 63 36 / 10%); // Generic Box Shadow Color
+
+// Status Colors
+$gc: rgb(100 194 86); // Green Status Color
+$yc: rgb(225 209 68); // Green Status Color
+$rc: rgb(194 86 86); // Red Status Color
+
+// Dimensions
+$hug: 15px; // Generic Padding and Margin
+$c-size: 42px; // Generic Component Height / Square Size
+$c-radius: 9px; // Generic Component Border Radius
+
+$app-width: 1128px;
+$chat-width: 820px;
+$app-header-height: calc($c-size * 1.5);

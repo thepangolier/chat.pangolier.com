@@ -1,0 +1,32 @@
+@use "@scss/shared/theme" as *;
+
+button.switch {
+  position: relative;
+  background: rgba($sc, 0.75);
+  border: none;
+  cursor: pointer;
+  width: 48px;
+  height: 21px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: 0.2s ease-in-out;
+
+  div.switch-ball {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba($pc, 0.5);
+    transition: 0.2s ease-in-out;
+  }
+
+  &.switch-on {
+    background: rgba($pc, 0.5);
+
+    div.switch-ball {
+      transform: translateX(21px);
+      background: $pc;
+    }
+  }
+}

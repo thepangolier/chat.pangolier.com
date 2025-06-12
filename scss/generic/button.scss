@@ -1,0 +1,70 @@
+@use "@scss/shared/theme" as *;
+
+@mixin generic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: calc($c-size * 0.8);
+  margin: 0;
+  padding: 0 calc($hug * 1);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: $fc;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background: rgba($pc, 0.1);
+
+  svg {
+    font-size: 18px;
+    position: relative;
+    top: 0;
+    margin: 0 calc($hug * 0.33) 0 0;
+  }
+
+  &:hover {
+    background: rgba($pc, 0.2);
+    color: $fc;
+  }
+
+  &:active,
+  &.active {
+    background: rgba($pc, 0.4);
+    color: $fc;
+  }
+
+  &:disabled,
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media (width <= 600px) {
+    height: calc($c-size * 0.8);
+    padding: 0 calc($hug * 1);
+    border-radius: calc($c-size * 0.4);
+    font-size: 10px;
+  }
+}
+
+@mixin menu {
+  @include generic;
+
+  & {
+    background: rgba($sc, 0.25);
+    border: 1px solid $sc;
+
+    &:hover {
+      background: rgba($sc, 0.5);
+      color: $fc;
+    }
+
+    &:active,
+    &.active {
+      background: rgba($sc, 0.75);
+      color: $fc;
+    }
+  }
+}
