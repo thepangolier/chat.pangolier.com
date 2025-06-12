@@ -1,0 +1,83 @@
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/form";
+@use "@scss/generic/button" as button;
+
+div#prompt {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+  form {
+    position: relative;
+    padding: 0 $hug;
+    max-width: $chat-width;
+    margin: auto;
+    min-height: 135px;
+    transition: opacity 0.2s ease-in-out;
+    backdrop-filter: blur(10px);
+
+
+    textarea {
+      background: rgba($bc, 0.75);
+      width: 100%;
+      height: 100%;
+      min-height: 135px;
+      margin: 0;
+      padding: calc($hug * 2);
+      border: 2px solid transparent;
+      border-radius: $c-radius $c-radius 0 0;
+      pointer-events: none;
+
+      &:focus {
+        border: 2px solid rgba($sc, 0.25);
+        box-shadow: 0 0 30px 10px $g-shadow;
+      }
+    }
+
+    &.ready {
+      textarea {
+        pointer-events: inherit;
+      }
+    }
+
+    button {
+      @include button.generic;
+
+      & {
+        opacity: 0;
+        animation: fade-in 0.5s ease-in-out forwards;
+        animation-delay: 0.3s;
+      }
+    }
+
+    button.button-send {
+      position: absolute;
+      right: calc($hug * 2);
+      bottom: calc($hug * 1);
+      width: calc($c-size * 0.8);
+      padding: 0;
+
+      svg {
+        margin: 0;
+      }
+    }
+  }
+
+  div.prompt-error {
+    padding: $hug;
+    width: 100%;
+    max-width: $chat-width;
+    margin: auto;
+
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: $rc;
+      color: $bc;
+      padding: 10px;
+      border-radius: $c-radius;
+    }
+  }
+}

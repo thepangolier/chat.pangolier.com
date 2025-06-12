@@ -1,0 +1,61 @@
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/form" as form;
+@use "@scss/generic/button" as button;
+
+table {
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+
+  thead {
+    background: $sc;
+
+    tr th {
+      padding: calc($hug / 3) $hug;
+    }
+  }
+
+  tbody {
+    tr td {
+      padding: calc($hug / 3) $hug;
+    }
+
+    tr {
+      transition: background 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:nth-child(even) {
+        background: rgba($sc, 0.1);
+      }
+
+      &:nth-child(odd) {
+        background: rgba($sc, 0.3);
+      }
+
+      &:hover {
+        background: rgba($sc, 0.5);
+      }
+    }
+
+    button, a {
+      @include button.generic;
+    }
+  }
+}
+
+input.table-input {
+  width: 100%;
+  height: $c-size;
+  border-radius: calc($c-size * 0.5);
+  max-width: 640px;
+  margin: $hug auto;
+  text-align: center;
+}
+
+button.button-table-load {
+  @include button.generic;
+
+  & {
+    margin: $hug auto;
+  }
+}

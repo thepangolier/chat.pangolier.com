@@ -1,0 +1,20 @@
+@use "sass:color" as color;
+@use "@scss/shared/theme" as *;
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: color.scale(color.adjust($pc, $lightness: 15%), $alpha: -100%);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: color.scale(color.adjust($pc, $lightness: -25%), $alpha: -25%);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: color.scale(color.adjust($pc, $lightness: -5%), $alpha: -25%);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: color.scale(color.adjust($pc, $lightness: -10%), $alpha: -25%);
+}

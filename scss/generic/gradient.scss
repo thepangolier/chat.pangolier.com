@@ -1,0 +1,30 @@
+@use "@scss/shared/theme" as *;
+
+$color-pantone-1: rgb(170 128 87 / 20%);
+$color-pantone-2: rgb(140 98 57 / 20%);
+$color-pantone-3: rgb(185 151 91 / 20%);
+$color-pantone-4: rgb(220 183 159 / 20%);
+$color-pantone-5: rgb(240 230 214 / 20%);
+
+@mixin background($blendMode: multiply) {
+  background-color: $bc;
+  background-image: radial-gradient(
+      circle at top right,
+      $color-pantone-1 0%,
+      $color-pantone-2 25%,
+      $color-pantone-3 50%,
+      $color-pantone-4 75%,
+      $color-pantone-5 100%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      $color-pantone-4 0%,
+      $color-pantone-3 25%,
+      $color-pantone-2 50%,
+      $color-pantone-1 75%,
+      $color-pantone-5 100%
+    );
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: $blendMode;
+}

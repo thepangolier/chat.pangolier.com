@@ -1,0 +1,83 @@
+@use "sass:color" as color;
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/gradient" as gradient;
+
+div.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100vh;
+  padding: 90px $hug 160px;
+}
+
+div.message {
+  border-radius: $c-radius;
+  background: $bc-user;
+  padding: $hug;
+  font-size: 16px;
+  overflow: auto;
+
+  &.user {
+    width: auto;
+  }
+
+  &.assistant {
+    background: transparent;
+    padding: $hug;
+  }
+
+  a {
+    color: $fc;
+  }
+
+  pre {
+    padding: $hug;
+    background: $bc;
+    border-radius: $c-radius;
+    overflow: auto;
+    font-family: monospace;
+    font-size: 14px;
+
+    code {
+      background: none;
+    }
+  }
+
+  code {
+    background: $sc;
+    padding: calc($hug / 3);
+    border-radius: $c-radius;
+  }
+
+  div.model-reasoning {
+    margin: 0;
+
+    button.reasoning-toggle {
+      background: none;
+      border: none;
+      width: 100%;
+      height: $c-size;
+      font-size: 14px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+
+      svg {
+        font-size: 18px;
+        margin: 0;
+      }
+    }
+
+    div.model-reasoning-content {
+      border-left: 1px solid $pc;
+      padding: 0 $hug;
+      margin: 0 0 $hug;
+
+      * {
+        font-size: 12px !important;
+      }
+    }
+  }
+}

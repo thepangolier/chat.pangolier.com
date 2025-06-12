@@ -1,0 +1,9 @@
+@use "@scss/shared/theme" as *;
+
+@mixin generic {
+  background: $panel-bg;
+  border-radius: calc($c-radius * 2);
+  border: 2px solid rgba($sc, 0.5);
+  box-shadow: 0 0 15px 15px $g-shadow;
+  padding: calc($hug * 2);
+}

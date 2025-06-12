@@ -1,0 +1,39 @@
+'use client'
+import { useChat } from '@ai-sdk/react'
+import PromptBar from '@component/prompt/bar'
+import Message from '@component/prompt/message'
+
+export default function AppPage() {
+  const {
+    messages,
+    status,
+    error,
+    input,
+    setInput,
+    handleSubmit,
+    stop,
+    experimental_resume
+  } = useChat({
+    api: '/api/chat',
+    experimental_throttle: 50
+  })
+
+  return (
+    <div className="container chat">
+      <div className="message-container">
+        {messages.map((message) => (
+          <Message key={message.id} message={message} />
+        ))}
+      </div>
+      <PromptBar
+        status={status}
+        error={error}
+        input={input}
+        setInput={setInput}
+        handleSubmit={handleSubmit}
+        stop={stop}
+        experimental_resume={experimental_resume}
+      />
+    </div>
+  )
+}
