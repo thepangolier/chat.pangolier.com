@@ -1,7 +1,7 @@
 'use client'
 import { useChat } from '@ai-sdk/react'
-import PromptBar from '@component/prompt/bar'
-import Message from '@component/prompt/message'
+import Message from '@component/chat/message'
+import PromptBar from '@component/chat/prompt'
 
 export default function AppPage() {
   const {
@@ -19,21 +19,23 @@ export default function AppPage() {
   })
 
   return (
-    <div className="container chat">
-      <div className="message-container">
-        {messages.map((message) => (
-          <Message key={message.id} message={message} />
-        ))}
+    <div id="chat">
+      <div className="container chat">
+        <div className="message-container">
+          {messages.map((message) => (
+            <Message key={message.id} message={message} />
+          ))}
+        </div>
+        <PromptBar
+          status={status}
+          error={error}
+          input={input}
+          setInput={setInput}
+          handleSubmit={handleSubmit}
+          stop={stop}
+          experimental_resume={experimental_resume}
+        />
       </div>
-      <PromptBar
-        status={status}
-        error={error}
-        input={input}
-        setInput={setInput}
-        handleSubmit={handleSubmit}
-        stop={stop}
-        experimental_resume={experimental_resume}
-      />
     </div>
   )
 }

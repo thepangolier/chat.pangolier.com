@@ -1,5 +1,5 @@
 'use client'
-import '@scss/prompt/prompt.scss'
+import '@scss/chat/prompt.scss'
 import type { ChatRequestOptions } from 'ai'
 import { IconSend, IconStop } from '@component/shared/icon'
 
@@ -45,6 +45,13 @@ export default function PromptBar({
           placeholder="Type your message here..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault()
+              e.currentTarget.blur()
+              handleSubmit()
+            }
+          }}
         />
         <button
           type={status === 'ready' ? 'submit' : 'button'}

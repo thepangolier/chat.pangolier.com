@@ -30,7 +30,7 @@ div#prompt {
       pointer-events: none;
 
       &:focus {
-        border: 2px solid rgba($sc, 0.25);
+        border: 2px solid rgba($sc, 1);
         box-shadow: 0 0 30px 10px $g-shadow;
       }
     }

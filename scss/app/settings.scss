@@ -19,12 +19,13 @@ div#settings {
         font-size: 16px;
         text-transform: capitalize;
         margin: 0 0 5px;
+        border: $pc-border;
       }
     }
   }
 
   div.settings-content {
-    padding: $hug calc($hug * 2);
+    padding: $hug 0 calc($hug * 2) $hug;
     width: calc(100% - 210px);
 
     h2 {
@@ -68,8 +69,7 @@ div#settings {
       width: 100%;
       background: rgba($sc, 0.25);
       border-radius: calc($c-radius * 2);
-      border: 1px solid $sc;
-      box-shadow: 0 0 15px 15px $g-shadow;
+      border: $pc-border;
       overflow: hidden;
       padding: calc($hug * 2);
 

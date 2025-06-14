@@ -1,4 +1,5 @@
 @use "@scss/shared/theme" as *;
+@use "@scss/generic/tooltip";
 @use "@scss/generic/button" as button;
 
 header {
@@ -6,11 +7,20 @@ header {
   left: 0;
   top: 0;
   width: 100%;
-  height: $app-header-height;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: $hug;
+
+  div.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: $app-header-height;
+    transition: 0.2s ease-in-out;
+    backdrop-filter: blur(10px);
+    background: rgba($sc, 0.5);
+    border: $pc-border;
+    border-radius: calc($app-header-height * 0.5);
+  }
 
   a.brand {
     display: flex;
@@ -25,7 +35,7 @@ header {
     img {
       width: calc($c-size * 1.125);
       height: calc($c-size * 1.125);
-      border: 2px solid transparent;
+      border: 1px solid transparent;
       border-radius: 50%;
       margin: 0 5px 0 0;
       transition: 0.2s ease-in-out;
@@ -34,7 +44,7 @@ header {
     &:hover {
       img {
         background: $sc;
-        border: 2px solid $sc;
+        border: $pc-border;
         box-shadow: 0 0 20px 5px $g-shadow;
       }
     }
@@ -65,20 +75,14 @@ header {
         }
 
         div.tooltip {
-          position: absolute;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           left: calc(50% - 45px);
-          bottom: -25px;
+          bottom: -45px;
           width: 90px;
-          font-size: 12px;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.2s ease-in-out;
         }
 
         &:hover {
+          box-shadow: 0 0 15px 5px $g-shadow;
+
           div.tooltip {
             opacity: 1;
           }
