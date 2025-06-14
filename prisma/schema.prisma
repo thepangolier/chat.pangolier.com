@@ -24,30 +24,10 @@ model Account {
   emailCode        String?
   targetEmail      String?
   targetCode       String?
-  notifyAll        Boolean    @default(true)
-  notifyUpdates    Boolean    @default(true)
-  notifyDeals      Boolean    @default(true)
   active           Boolean    @default(true)
   dateCreated      DateTime   @default(now())
   dateUpdated      DateTime   @updatedAt
-  Activity         Activity[]
 
-  @@index([dateCreated])
-  @@index([dateUpdated])
-}
-
-model Activity {
-  id          Int      @id @default(autoincrement())
-  accountId   Int
-  account     Account  @relation(fields: [accountId], references: [id])
-  type        String
-  description String
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
-
-  @@index([accountId, type])
-  @@index([accountId])
-  @@index([type])
   @@index([dateCreated])
   @@index([dateUpdated])
 }

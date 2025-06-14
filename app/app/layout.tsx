@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation'
 import type { ReactNode } from 'react'
 import getAccount from '@action/account/session'
 import AppHeader from '@component/header'
-import NavigationTracker from '@component/shared/tracker'
 import { SessionProvider } from '@context/session'
 import { title } from '@util/metadata'
 
@@ -35,7 +34,6 @@ export default async function AppLayout({ children }: AppLayoutProps) {
   return (
     <SessionProvider initialAccount={account}>
       <AppHeader />
-      <NavigationTracker />
       {children}
     </SessionProvider>
   )

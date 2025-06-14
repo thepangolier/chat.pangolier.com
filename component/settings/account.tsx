@@ -1,3 +1,4 @@
+'use client'
 import '@scss/app/sso.scss'
 import Image from 'next/image'
 import { useMemo } from 'react'

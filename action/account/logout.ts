@@ -13,7 +13,6 @@ export default async function logoutAction(): Promise<GenericResponse> {
   try {
     const session = await getSession()
     session.account = undefined
-    session.admin = false
     await session.save()
 
     return { ok: true, message: 'Logged out successfully' }

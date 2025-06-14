@@ -11,6 +11,7 @@ header {
   padding: $hug;
 
   div.container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -50,12 +51,16 @@ header {
     }
   }
 
-  div.app-menu {
+  div.main-menu {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     padding: 0 $hug;
+
+    &.dropdown-visible {
+      pointer-events: none;
+    }
 
     a.button,
     button {
@@ -86,6 +91,45 @@ header {
           div.tooltip {
             opacity: 1;
           }
+        }
+      }
+    }
+  }
+
+  div.dropdown-menu {
+    position: absolute;
+    right: calc($hug * 2);
+    top: calc($app-header-height - 3px);
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.2s ease-in-out;
+    backdrop-filter: blur(10px);
+    background: $panel-bg;
+    border: $pc-border;
+    border-radius: 0 0 $c-radius $c-radius;
+    overflow: hidden;
+    z-index: 10;
+
+    &.invisible {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    a.button,
+    button {
+      @include button.menu;
+
+      & {
+        justify-content: flex-start;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        margin: 0;
+        border-bottom: $pc-border;
+
+        &:last-child {
+          border-bottom: none;
         }
       }
     }
