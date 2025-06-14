@@ -9,7 +9,6 @@ export const password =
 export interface SessionInterface {
   verifyId?: string | number // For 2FA verification
   account?: Account
-  admin?: boolean
 }
 
 export default async function getSession() {

@@ -92,12 +92,6 @@ div.model-reasoning {
     div.tooltip {
       left: 110px;
     }
-
-    &:hover {
-      div.tooltip {
-        opacity: 1;
-      }
-    }
   }
 
   div.model-reasoning-content {
@@ -108,6 +102,14 @@ div.model-reasoning {
 
     * {
       font-size: 12px !important;
+    }
+  }
+
+  &:hover {
+    div.reasoning-toggle {
+      div.tooltip {
+        opacity: 1;
+      }
     }
   }
 }

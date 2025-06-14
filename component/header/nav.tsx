@@ -1,49 +1,55 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { type ReactNode, useMemo } from 'react'
+import {
+  type AnchorHTMLAttributes,
+  forwardRef,
+  type ReactNode,
+  useMemo
+} from 'react'
 
-interface HeaderNavProps {
-  /** Target path for this link (optional). If omitted, the element will be rendered as a plain button. */
-  href?: string
-  /** Optional click handler when rendered as a button or link. */
-  onClick?: () => void
-  /** Link label or content */
+/*
+ * Navigation element that always renders an anchor tag.
+ * • Renders a Next.js `Link` when `href` is provided; otherwise a plain `<a role="button">`.
+ * • Adds the `active` class when the current route exactly matches `href`.
+ *
+ * @param href     - Destination URL (optional).
+ * @param children - Visible label or elements.
+ * @param className - Additional CSS classes.
+ * @returns An anchor element for navigation or actions.
+ */
+export interface HeaderNavProps
+  extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> {
   children: ReactNode
 }
 
-/**
- * A navigation link styled as a button that highlights itself
- * when the current route exactly matches its `href`.
- *
- * Uses `useMemo` to only recompute `isActive` when `pathname` or `href` change.
- *
- * @param href - URL path this button points to.
- * @param children - Visible label or elements inside the link.
- */
-export default function HeaderNav({ href, onClick, children }: HeaderNavProps) {
-  const pathname = usePathname()
-  const isActive = useMemo(
-    () => (href ? pathname === href : false),
-    [pathname, href]
-  )
+const HeaderNav = forwardRef<HTMLAnchorElement, HeaderNavProps>(
+  ({ href, className = '', children, ...rest }, ref) => {
+    const pathname = usePathname()
+    const isActive = useMemo(
+      () => (href ? pathname === href : false),
+      [pathname, href]
+    )
 
-  // When an href is provided, render a Next.js Link; otherwise, render a button.
-  if (href) {
+    const classes = `button${isActive ? ' active' : ''}${
+      className ? ` ${className}` : ''
+    }`
+
+    if (href) {
+      return (
+        <Link ref={ref} href={href} className={classes} {...rest}>
+          {children}
+        </Link>
+      )
+    }
+
     return (
-      <Link
-        href={href}
-        onClick={onClick}
-        className={`button${isActive ? ' active' : ''}`}
-      >
+      <a ref={ref} role="button" tabIndex={0} className={classes} {...rest}>
         {children}
-      </Link>
+      </a>
     )
   }
+)
 
-  return (
-    <button type="button" onClick={onClick} className="button">
-      {children}
-    </button>
-  )
-}
+HeaderNav.displayName = 'HeaderNav'
+export default HeaderNav

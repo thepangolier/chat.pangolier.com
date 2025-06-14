@@ -43,7 +43,7 @@ export default function LogoutButton() {
       className={isLoggingOut ? 'loading' : ''}
     >
       {isLoggingOut ? <IconSpinner /> : <IconLogout />}
-      <div className="tooltip">Logout</div>
+      Logout
     </button>
   )
 }
