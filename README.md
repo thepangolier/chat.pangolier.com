@@ -1,26 +1,25 @@
 # Pangolier Chat
 
-A free, open-source chat app built for seamless collaboration
+A free, open-source chat app designed for seamless collaboration.
 
-View a full write up on Pangolier Chat [in this article](https://pangolier.com/chat)
+Read the full write-up on Pangolier Chat [in this article](https://pangolier.com/chat).
 
 ## Why build this?
 
-I was motivated to build this because I thought the original idea of T3Chat (Chat Branching) was great, and, wanted to take it a step further with a collaborative aspect. You can see other user's cursors on the screen and you can see a comprehensive tree of the conversation and branched conversations.
+I was inspired by T3 Chat’s original idea of chat branching and wanted to take it a step further by adding real-time collaboration. Pangolier Chat lets you see other users’ cursors in the interface and view a comprehensive tree of the conversation, including each branch.
 
-I also think from core visual design style (padding, spacing, color contrast) T3 Chat has some extremely good elements, so it was a good exercise to replicate (with my own touches) to the visual design flows.
+T3 Chat also features strong visual design fundamentals (spacing, padding, and color contrast). Replicating and refining those elements with my own touches was a valuable exercise.
 
-Furthermore, I think Redis as a whole being the core database for persisting chat messages is the best option and most scalable. Especially with it's more recent support for [JSON](https://redis.io/docs/latest/develop/data-types/json/).
+I also wanted to showcase that Redis is the most scalable choice for real-time, interactive chat applications, especially with its recent updates for [JSON support](https://redis.io/docs/latest/develop/data-types/json/).
 
-### Hard Forking Expression
+### Hard-forking Expression
 
-This took the original [Expression](https://pangolier.com/expression) features and refined and ramped it up to be closer to a production level Chat App. Unfortunately, there is no Notion style editor (since we are opting for a very focused Chat Interface, not a free form UI).
+This project evolves the original [Expression](https://pangolier.com/expression) concept into a more production-ready chat application. It ships without the Notion-style editor, which, I think is somewhat ironic, but, really helps keep the Chat UX focused.
 
-## Quick Start
+## Quick start
 
-The following is a snippet for setting up on MacOS quickly.
-
-You can review more comprehensive [documentation here](./docs/DEV.md).
+The snippet below sets up Pangolier Chat quickly on macOS.
+For detailed instructions, see the [documentation](./docs/DEV.md).
 
 ```bash
 # Setup redis-stack-server
@@ -43,7 +42,7 @@ bun run prisma:sync
 bun run dev
 ```
 
-## Documentation
+## Additional Documentation
 
 - [Local Development Setup](./docs/DEV.md)
 

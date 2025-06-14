@@ -8,9 +8,9 @@ $sc: rgb(209 179 129); // Secondary Color
 $fc: rgb(18 7 1); // Foreground Color
 $bc: rgb(245 234 227); // Background Color
 $bc-user: rgb(224 202 164); // Background Color for User Prompts
-$bc-model: rgb(225 195 144); // Background Color for Model Prompts
 $panel-bg: rgb(211 186 160); // Panel Background Color
 $g-shadow: rgb(113 63 36 / 10%); // Generic Box Shadow Color
+$pc-border: 1px solid rgba($pc, 0.1); // Primary Color Border Style
 
 // Status Colors
 $gc: rgb(100 194 86); // Green Status Color

@@ -1,0 +1,16 @@
+@use "@scss/shared/theme" as *;
+
+div.tooltip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  background: $sc;
+  border: $pc-border;
+  border-radius: 20px;
+  padding: 3px 10px;
+}

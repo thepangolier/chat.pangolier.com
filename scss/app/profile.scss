@@ -39,8 +39,7 @@ div.profile {
   width: 100%;
   background: rgba($sc, 0.25);
   border-radius: $p-radius;
-  border: 1px solid $sc;
-  box-shadow: 0 0 15px 15px $g-shadow;
+  border: $pc-border;
   overflow: hidden;
 
   button.profile-submit {

@@ -4,8 +4,10 @@ import { usePathname } from 'next/navigation'
 import { type ReactNode, useMemo } from 'react'
 
 interface HeaderNavProps {
-  /** Target path for this link */
-  href: string
+  /** Target path for this link (optional). If omitted, the element will be rendered as a plain button. */
+  href?: string
+  /** Optional click handler when rendered as a button or link. */
+  onClick?: () => void
   /** Link label or content */
   children: ReactNode
 }
@@ -19,13 +21,29 @@ interface HeaderNavProps {
  * @param href - URL path this button points to.
  * @param children - Visible label or elements inside the link.
  */
-export default function HeaderNav({ href, children }: HeaderNavProps) {
+export default function HeaderNav({ href, onClick, children }: HeaderNavProps) {
   const pathname = usePathname()
-  const isActive = useMemo(() => pathname === href, [pathname, href])
+  const isActive = useMemo(
+    () => (href ? pathname === href : false),
+    [pathname, href]
+  )
+
+  // When an href is provided, render a Next.js Link; otherwise, render a button.
+  if (href) {
+    return (
+      <Link
+        href={href}
+        onClick={onClick}
+        className={`button${isActive ? ' active' : ''}`}
+      >
+        {children}
+      </Link>
+    )
+  }
 
   return (
-    <Link href={href} className={`button${isActive ? ' active' : ''}`}>
+    <button type="button" onClick={onClick} className="button">
       {children}
-    </Link>
+    </button>
   )
 }

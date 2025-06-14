@@ -1,0 +1,113 @@
+@use "sass:color" as color;
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/tooltip";
+@use "@scss/generic/gradient" as gradient;
+
+div.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100vh;
+  padding: 90px $hug 160px;
+}
+
+div.message {
+  padding: $hug;
+  font-size: 16px;
+  overflow: auto;
+
+  &.user {
+    width: auto;
+    border-radius: $c-radius;
+    background: $bc-user;
+    border: $pc-border;
+  }
+
+  &.assistant {
+    background: transparent;
+    padding: $hug 0;
+  }
+
+  a {
+    color: $fc;
+  }
+
+  pre {
+    padding: $hug;
+    background: $bc;
+    border-radius: $c-radius;
+    overflow: auto;
+    font-family: monospace;
+    font-size: 14px;
+
+    code {
+      background: none;
+    }
+  }
+
+  code {
+    background: $sc;
+    padding: calc($hug / 3);
+    border-radius: $c-radius;
+  }
+}
+
+div.model-reasoning {
+  margin: 0 0 $hug;
+  padding: $hug;
+  background: rgba($sc, 0.5);
+  border: $pc-border;
+  border-radius: $c-radius;
+
+  div.reasoning-toggle {
+    position: relative;
+    background: none;
+    border: none;
+    width: 100%;
+    font-size: 16px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    p {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+
+      svg {
+        margin: 0 5px 0 0;
+      }
+    }
+
+    svg {
+      font-size: 21px;
+
+      &.icon-chevron {
+        transform: rotate(90deg);
+      }
+    }
+
+    div.tooltip {
+      left: 110px;
+    }
+
+    &:hover {
+      div.tooltip {
+        opacity: 1;
+      }
+    }
+  }
+
+  div.model-reasoning-content {
+    margin: $hug 0 0 0;
+    padding: $hug;
+    background: rgba($pc, 0.1);
+    border-radius: $c-radius;
+
+    * {
+      font-size: 12px !important;
+    }
+  }
+}

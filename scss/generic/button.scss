@@ -54,16 +54,16 @@
 
   & {
     background: rgba($sc, 0.25);
-    border: 1px solid $sc;
+    border: $pc-border;
 
     &:hover {
-      background: rgba($sc, 0.5);
+      background: rgba($sc, 0.75);
       color: $fc;
     }
 
     &:active,
     &.active {
-      background: rgba($sc, 0.75);
+      background: rgba($sc, 1);
       color: $fc;
     }
   }

@@ -13,12 +13,16 @@ import {
 /*
  * Value exposed by the session context.
  *
- * @property account   - The authenticated account (never `null`).
- * @property setAccount - Setter to overwrite the current account.
+ * @property account          - The authenticated account (never `null`).
+ * @property setAccount       - Setter to overwrite the current account.
+ * @property historyPopup     - Whether the conversation history pop-up is visible.
+ * @property setHistoryPopup  - Setter to toggle the history pop-up visibility.
  */
 export interface SessionContextValue {
   account: Account
   setAccount: Dispatch<SetStateAction<Account>>
+  historyPopup: boolean
+  setHistoryPopup: Dispatch<SetStateAction<boolean>>
 }
 
 const SessionContext = createContext<SessionContextValue | undefined>(undefined)
@@ -48,8 +52,12 @@ export function SessionProvider({
   initialAccount
 }: SessionProviderProps) {
   const [account, setAccount] = useState<Account>(initialAccount)
+  const [historyPopup, setHistoryPopup] = useState<boolean>(false)
 
-  const value = useMemo(() => ({ account, setAccount }), [account, setAccount])
+  const value = useMemo(
+    () => ({ account, setAccount, historyPopup, setHistoryPopup }),
+    [account, setAccount, historyPopup, setHistoryPopup]
+  )
 
   return (
     <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
