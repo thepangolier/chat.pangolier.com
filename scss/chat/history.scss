@@ -1,0 +1,87 @@
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/panel" as panel;
+
+div#history {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: rgba($sc, 0.05);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+
+  &.invisible {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  div.history-content {
+    @include panel.generic;
+
+    & {
+      width: 100%;
+      max-width: $app-width;
+      padding: 0;
+      overflow: hidden;
+    }
+  }
+
+  div.history-search {
+    position: relative;
+    border-bottom: 1px solid $sc;
+
+    input {
+      height: 60px;
+      padding: 0 calc($hug * 4) 0 calc($hug * 2);
+      border-radius: 0;
+      border: none;
+    }
+
+    svg {
+      position: absolute;
+      right: calc($hug * 2);
+      top: 18px;
+      color: $sc;
+      font-size: 24px;
+    }
+  }
+
+  div.history-data {
+    display: flex;
+    height: 640px;
+
+    div.history-threads {
+      width: 360px;
+      height: 100%;
+
+      a {
+        display: block;
+        color: $fc;
+        padding: 5px $hug;
+        margin: 10px;
+        background: rgba($pc, 0.05);
+        border-radius: $c-radius;
+        transition: all 0.2s ease-in-out;
+
+        p.timestamp {
+          font-size: 11px;
+          color: $pc;
+        }
+
+        p.title {
+          font-size: 14px;
+        }
+
+        &:hover {
+          background: rgba($pc, 0.1);
+        }
+      }
+    }
+  }
+}

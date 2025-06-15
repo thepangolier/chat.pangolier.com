@@ -17,8 +17,9 @@ div#prompt {
     transition: opacity 0.2s ease-in-out;
     backdrop-filter: blur(10px);
 
-
     textarea {
+      position: relative;
+      z-index: 4;
       background: rgba($bc, 0.75);
       width: 100%;
       height: 100%;
@@ -38,6 +39,8 @@ div#prompt {
     &.ready {
       textarea {
         pointer-events: inherit;
+        opacity: 0;
+        animation: fade-in 0.5s ease-in-out forwards;
       }
     }
 
@@ -45,9 +48,25 @@ div#prompt {
       @include button.generic;
 
       & {
+        z-index: 5;
         opacity: 0;
         animation: fade-in 0.5s ease-in-out forwards;
-        animation-delay: 0.3s;
+      }
+    }
+
+    button.model-selector {
+      position: absolute;
+      left: calc($hug * 2);
+      bottom: calc($hug * 1);
+      padding: 0 15px 0 12px;
+
+      svg {
+        margin: 0 5px 0 0;
+
+        &.icon-xai, &.icon-gemini {
+          transform: scale(0.8);
+          transform-origin: center;
+        }
       }
     }
 

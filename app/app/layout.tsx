@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import type { ReactNode } from 'react'
 import getAccount from '@action/account/session'
+import ChatHistory from '@component/chat/history'
 import AppHeader from '@component/header'
 import { SessionProvider } from '@context/session'
 import { title } from '@util/metadata'
@@ -34,6 +35,7 @@ export default async function AppLayout({ children }: AppLayoutProps) {
   return (
     <SessionProvider initialAccount={account}>
       <AppHeader />
+      <ChatHistory />
       {children}
     </SessionProvider>
   )

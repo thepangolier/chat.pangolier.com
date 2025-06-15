@@ -1,6 +1,7 @@
 'use client'
 import '@scss/chat/prompt.scss'
 import type { ChatRequestOptions } from 'ai'
+import ModelCatalogue from '@component/chat/catalogue'
 import { IconSend, IconStop } from '@component/shared/icon'
 
 export interface PromptBarProps {
@@ -21,7 +22,8 @@ export default function PromptBar({
   error,
   input,
   setInput,
-  handleSubmit
+  handleSubmit,
+  stop
 }: PromptBarProps) {
   return (
     <div id="prompt">
@@ -37,7 +39,9 @@ export default function PromptBar({
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          handleSubmit()
+          if (input.trim()) {
+            handleSubmit()
+          }
         }}
         className={status}
       >
@@ -45,14 +49,19 @@ export default function PromptBar({
           placeholder="Type your message here..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyUp={(e) => {
+          onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault()
-              e.currentTarget.blur()
-              handleSubmit()
+              if (input.trim()) {
+                e.currentTarget.blur()
+                handleSubmit()
+              } else {
+                setInput('')
+              }
             }
           }}
         />
+        <ModelCatalogue />
         <button
           type={status === 'ready' ? 'submit' : 'button'}
           className="button-send"
