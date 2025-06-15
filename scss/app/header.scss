@@ -21,6 +21,7 @@ header {
     background: rgba($sc, 0.5);
     border: $pc-border;
     border-radius: calc($app-header-height * 0.5);
+    box-shadow: 0 0 20px 5px $g-shadow;
   }
 
   a.brand {

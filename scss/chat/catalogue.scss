@@ -1,0 +1,98 @@
+@use "@scss/shared/theme" as *;
+
+div#catalogue {
+  position: absolute;
+  left: calc($hug * 2);
+  bottom: 100%;
+  width: calc(100% - calc($hug * 4));
+  transition: 0.2s ease-in-out;
+  backdrop-filter: blur(10px);
+  background: $panel-bg;
+  border: $pc-border;
+  border-bottom: none;
+  padding: $hug;
+  border-radius: $c-radius $c-radius 0 0;
+  box-shadow: 0 0 10px 10px $g-shadow;
+  transform: translateY(0);
+  z-index: 3;
+
+  &.invisible {
+    transform: translateY(calc(100% + 135px));
+  }
+
+  div.cat-main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 5px;
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    input {
+      background: rgba($bc, 0.5);
+      width: 210px;
+      height: 32px;
+      margin: 0;
+      padding: 0 10px;
+      font-size: 12px;
+
+      &::placeholder {
+        color: rgba($pc, 0.5);
+      }
+    }
+  }
+
+  div.cat-header {
+    display: flex;
+    align-items: center;
+    padding: 0 0 10px;
+
+    svg {
+      font-size: 24px;
+      margin: 0 5px 0 0;
+
+      &.icon-gemini {
+        transform: scale(0.9);
+        transform-origin: center;
+      }
+
+      &.icon-xai {
+        transform: scale(0.8);
+        transform-origin: center;
+      }
+    }
+  }
+
+  div.cat-models {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: $hug;
+    margin: 0 0 $hug;
+
+    button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: 80px;
+      padding: $hug;
+      text-align: center;
+
+      svg {
+        font-size: 24px;
+        margin: 0;
+
+        &.icon-gemini, &.icon-xai {
+          font-size: 21px;
+          margin: 0 0 3px;
+        }
+      }
+    }
+  }
+}
