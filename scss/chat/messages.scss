@@ -32,6 +32,11 @@ div.message {
     color: $fc;
   }
 
+  hr {
+    border: $pc-border;
+    margin: $hug 0;
+  }
+
   pre {
     padding: $hug;
     background: $bc;

@@ -80,7 +80,6 @@ export default function Message({ message }: MessageProps) {
                   id={`${message.id}-${idx}`}
                 />
               )
-
             case 'text':
               return (
                 <Markdown

@@ -2,8 +2,10 @@
 import { useChat } from '@ai-sdk/react'
 import Message from '@component/chat/message'
 import PromptBar from '@component/chat/prompt'
+import { useSession } from '@context/session'
 
 export default function AppPage() {
+  const { model, reasoning, useSearchGrounding } = useSession()
   const {
     messages,
     status,
@@ -15,7 +17,13 @@ export default function AppPage() {
     experimental_resume
   } = useChat({
     api: '/api/chat',
-    experimental_throttle: 50
+    experimental_throttle: 50,
+    body: {
+      provider: model.provider,
+      model: model.model,
+      reasoning,
+      useSearchGrounding
+    }
   })
 
   return (

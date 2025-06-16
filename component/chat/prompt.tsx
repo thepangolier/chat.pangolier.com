@@ -2,7 +2,7 @@
 import '@scss/chat/prompt.scss'
 import type { ChatRequestOptions } from 'ai'
 import ModelCatalogue from '@component/chat/catalogue'
-import { IconSend, IconStop } from '@component/shared/icon'
+import { IconSend, IconSpinner, IconStop } from '@component/shared/icon'
 
 export interface PromptBarProps {
   status: 'submitted' | 'streaming' | 'ready' | 'error'
@@ -36,6 +36,14 @@ export default function PromptBar({
           </p>
         </div>
       )}
+
+      <IconSpinner
+        className={
+          status !== 'ready'
+            ? 'icon-spinner prompt-spinner visible'
+            : 'icon-spinner prompt-spinner invisible'
+        }
+      />
       <form
         onSubmit={(e) => {
           e.preventDefault()
