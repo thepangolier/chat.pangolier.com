@@ -8,20 +8,6 @@ div#prompt {
   bottom: 0;
   width: 100%;
 
-  svg.prompt-spinner {
-    position: absolute;
-    left: calc(50% - 12px);
-    bottom: calc(100% + 10px);
-    font-size: 24px;
-    color: $pc;
-    transition: 0.2s ease-in-out;
-    pointer-events: none;
-
-    &.invisible {
-      opacity: 0;
-    }
-  }
-
   form {
     position: relative;
     padding: 0 $hug;

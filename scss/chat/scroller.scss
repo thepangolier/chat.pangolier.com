@@ -1,0 +1,29 @@
+@use "@scss/shared/theme" as *;
+@use "sass:color" as color;
+@use "@scss/generic/button" as button;
+
+button#scroll-to-bottom {
+  @include button.generic;
+
+  & {
+    margin: $hug auto;
+    background: $panel-bg;
+    border-radius: calc($c-size * 0.5);
+    border: $pc-border;
+    transition: opacity 0.2s ease-in-out;
+
+    &.invisible {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &:hover {
+      box-shadow: 0 0 30px 5px $g-shadow;
+      background: color.adjust($panel-bg, $lightness: 2.5%);
+    }
+
+    &:active {
+      background: color.adjust($panel-bg, $lightness: 5%);
+    }
+  }
+}

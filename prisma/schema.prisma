@@ -9,25 +9,53 @@ datasource db {
 }
 
 model Account {
-  id               Int        @id @default(autoincrement())
-  email            String     @unique
+  id               Int                 @id @default(autoincrement())
+  email            String              @unique
   name             String?
   bio              String?
   password         String?
   photo            String?
   banner           String?
-  googleId         String?    @unique
+  googleId         String?             @unique
   googleUrl        String?
-  githubId         String?    @unique
+  githubId         String?             @unique
   githubUrl        String?
-  requireEmailCode Boolean    @default(false)
+  requireEmailCode Boolean             @default(false)
   emailCode        String?
   targetEmail      String?
   targetCode       String?
-  active           Boolean    @default(true)
-  dateCreated      DateTime   @default(now())
-  dateUpdated      DateTime   @updatedAt
+  active           Boolean             @default(true)
+  threads          ThreadParticipant[]
+  dateCreated      DateTime            @default(now())
+  dateUpdated      DateTime            @updatedAt
 
   @@index([dateCreated])
   @@index([dateUpdated])
+}
+
+model Thread {
+  id            Int                 @id @default(autoincrement())
+  title         String?
+  lastMessageId String?
+  lastMessageAt DateTime?           @map("last_message_at")
+  archived      Boolean             @default(false)
+  participants  ThreadParticipant[]
+  dateCreated   DateTime            @default(now())
+  dateUpdated   DateTime            @updatedAt
+
+  @@index([lastMessageAt])
+}
+
+model ThreadParticipant {
+  threadId   Int
+  accountId  Int
+  joinedAt   DateTime  @default(now())
+  lastReadId String?
+  pinned     Boolean   @default(false)
+  mutedUntil DateTime?
+  thread     Thread    @relation(fields: [threadId], references: [id])
+  account    Account   @relation(fields: [accountId], references: [id])
+
+  @@id([threadId, accountId])
+  @@index([accountId, mutedUntil])
 }

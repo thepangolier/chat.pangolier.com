@@ -46,7 +46,7 @@ export default function RegisterForm() {
               })
 
               if (result.ok) {
-                router.push('/app')
+                router.push('/chat')
               } else {
                 toast.error(result.message || 'Registration failed')
               }
@@ -100,12 +100,12 @@ export default function RegisterForm() {
           <GoogleSSO
             text="Register with Google"
             action="login"
-            onSuccess={() => router.push('/app')}
+            onSuccess={() => router.push('/chat')}
           />
           <GithubSSO
             text="Register with Github"
             action="login"
-            onSuccess={() => router.push('/app')}
+            onSuccess={() => router.push('/chat')}
           />
         </div>
       </div>

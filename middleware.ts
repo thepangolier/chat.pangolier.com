@@ -6,7 +6,7 @@ export async function middleware(
 ): Promise<NextResponse | void> {
   const session = await getSession()
   const pathname = req.nextUrl.pathname
-  const isAppRoute = pathname.startsWith('/app')
+  const isAppRoute = pathname.startsWith('/chat')
 
   if (isAppRoute) {
     const isLoggedIn = !!session.account?.id

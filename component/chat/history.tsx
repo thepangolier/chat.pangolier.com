@@ -42,7 +42,7 @@ export default function ChatHistory() {
         <div className="history-data">
           <div className="history-threads">
             {new Array(5).fill(0).map((_, i) => (
-              <Link href="/app" key={i}>
+              <Link href="/chat" key={i}>
                 <p className="timestamp">
                   {new Date(1750028820431).toDateString()}
                 </p>
