@@ -16,6 +16,14 @@ I also wanted to showcase that Redis is the most scalable choice for real-time, 
 
 This project evolves the original [Expression](https://pangolier.com/expression) concept into a more production-ready chat application. It ships without the Notion-style editor, which, I think is somewhat ironic, but, really helps keep the Chat UX focused.
 
+### Potential Future Scope
+
+If people show interest in the project, here are some good ideas:
+
+- Universal Search Tool Call (Google Search API)
+- MCP Remote Server Support
+- Finish Collaborative Features
+
 ## Quick start
 
 The snippet below sets up Pangolier Chat quickly on macOS.

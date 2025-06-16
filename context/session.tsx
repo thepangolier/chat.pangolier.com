@@ -9,6 +9,12 @@ import {
   useMemo,
   useState
 } from 'react'
+import { type ProviderName } from '@ai/provider'
+
+export interface ModelSelection {
+  provider: ProviderName
+  model: string
+}
 
 /*
  * Value exposed by the session context.
@@ -17,12 +23,20 @@ import {
  * @property setAccount       - Setter to overwrite the current account.
  * @property historyPopup     - Whether the conversation history pop-up is visible.
  * @property setHistoryPopup  - Setter to toggle the history pop-up visibility.
+ * @property model            - The currently selected model.
+ * @property setModel         - Setter to overwrite the current model.
  */
 export interface SessionContextValue {
   account: Account
   setAccount: Dispatch<SetStateAction<Account>>
   historyPopup: boolean
   setHistoryPopup: Dispatch<SetStateAction<boolean>>
+  model: ModelSelection
+  setModel: Dispatch<SetStateAction<ModelSelection>>
+  reasoning: 'low' | 'medium' | 'high'
+  setReasoning: Dispatch<SetStateAction<'low' | 'medium' | 'high'>>
+  useSearchGrounding: boolean
+  setUseSearchGrounding: Dispatch<SetStateAction<boolean>>
 }
 
 const SessionContext = createContext<SessionContextValue | undefined>(undefined)
@@ -53,10 +67,38 @@ export function SessionProvider({
 }: SessionProviderProps) {
   const [account, setAccount] = useState<Account>(initialAccount)
   const [historyPopup, setHistoryPopup] = useState<boolean>(false)
+  const [model, setModel] = useState<ModelSelection>({
+    provider: 'xai',
+    model: 'grok-3-mini'
+  })
+  const [reasoning, setReasoning] = useState<'low' | 'medium' | 'high'>('low')
+  const [useSearchGrounding, setUseSearchGrounding] = useState<boolean>(false)
 
   const value = useMemo(
-    () => ({ account, setAccount, historyPopup, setHistoryPopup }),
-    [account, setAccount, historyPopup, setHistoryPopup]
+    () => ({
+      account,
+      setAccount,
+      historyPopup,
+      setHistoryPopup,
+      model,
+      setModel,
+      reasoning,
+      setReasoning,
+      useSearchGrounding,
+      setUseSearchGrounding
+    }),
+    [
+      account,
+      setAccount,
+      historyPopup,
+      setHistoryPopup,
+      model,
+      setModel,
+      reasoning,
+      setReasoning,
+      useSearchGrounding,
+      setUseSearchGrounding
+    ]
   )
 
   return (

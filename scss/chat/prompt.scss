@@ -8,6 +8,20 @@ div#prompt {
   bottom: 0;
   width: 100%;
 
+  svg.prompt-spinner {
+    position: absolute;
+    left: calc(50% - 12px);
+    bottom: calc(100% + 10px);
+    font-size: 24px;
+    color: $pc;
+    transition: 0.2s ease-in-out;
+    pointer-events: none;
+
+    &.invisible {
+      opacity: 0;
+    }
+  }
+
   form {
     position: relative;
     padding: 0 $hug;
@@ -29,18 +43,12 @@ div#prompt {
       border: 2px solid transparent;
       border-radius: $c-radius $c-radius 0 0;
       pointer-events: none;
+      opacity: 0;
+      animation: fade-in 0.5s ease-in-out forwards;
 
       &:focus {
         border: 2px solid rgba($sc, 1);
         box-shadow: 0 0 30px 10px $g-shadow;
-      }
-    }
-
-    &.ready {
-      textarea {
-        pointer-events: inherit;
-        opacity: 0;
-        animation: fade-in 0.5s ease-in-out forwards;
       }
     }
 
@@ -54,18 +62,57 @@ div#prompt {
       }
     }
 
-    button.model-selector {
+    div.model-options {
       position: absolute;
       left: calc($hug * 2);
       bottom: calc($hug * 1);
-      padding: 0 15px 0 12px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      z-index: 5;
 
-      svg {
+      button {
+        padding: 0 10px 0 7px;
+        text-transform: capitalize;
         margin: 0 5px 0 0;
 
-        &.icon-xai, &.icon-gemini {
-          transform: scale(0.8);
-          transform-origin: center;
+        svg {
+          margin: 0 3px 0 0;
+
+          &.icon-xai, &.icon-gemini {
+            transform: scale(0.8);
+            transform-origin: center;
+          }
+        }
+      }
+
+      div.reason-wrapper {
+        position: relative;
+      }
+
+      div.reason-dropdown {
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 5px);
+        z-index: 5;
+        width: 120px;
+        background: $panel-bg;
+        border-radius: $c-radius;
+        border: $pc-border;
+        transition: opacity 0.2s ease-in-out;
+
+        &.invisible {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        button {
+          width: 100%;
+          background: transparent;
+          justify-content: flex-start;
+          border-bottom: $pc-border;
+          font-size: 12px;
+          height: 28px;
         }
       }
     }
@@ -79,6 +126,13 @@ div#prompt {
 
       svg {
         margin: 0;
+      }
+    }
+
+    &.ready {
+      textarea {
+        opacity: 1;
+        pointer-events: inherit;
       }
     }
   }
