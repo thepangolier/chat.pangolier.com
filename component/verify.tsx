@@ -31,7 +31,7 @@ export default function VerifyForm() {
               const result = await verifyAction({ code })
 
               if (result.ok) {
-                router.push('/app')
+                router.push('/chat')
               } else {
                 toast.error(result.message)
               }

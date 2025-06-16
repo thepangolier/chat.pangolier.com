@@ -186,7 +186,7 @@ export default function ModelCatalogue() {
             onClick={() => setUseSearchGrounding((prev) => !prev)}
           >
             <IconSearch />
-            Search
+            Search {useSearchGrounding ? 'On' : 'Off'}
           </button>
         )}
       </div>

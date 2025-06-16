@@ -43,7 +43,7 @@ export default function LoginForm() {
                 if (result.message.includes('2fa')) {
                   router.push('/verify')
                 } else {
-                  router.push('/app')
+                  router.push('/chat')
                 }
               } else {
                 toast.error(result.message || 'Login failed')
@@ -82,12 +82,12 @@ export default function LoginForm() {
           <GoogleSSO
             text="Login with Google"
             action="login"
-            onSuccess={() => router.push('/app')}
+            onSuccess={() => router.push('/chat')}
           />
           <GithubSSO
             text="Login with Github"
             action="login"
-            onSuccess={() => router.push('/app')}
+            onSuccess={() => router.push('/chat')}
           />
         </div>
       </div>

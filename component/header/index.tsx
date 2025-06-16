@@ -10,11 +10,13 @@ import {
   useRef,
   useState
 } from 'react'
+import { toast } from 'react-toastify'
 import Logo from '@assets/img/logo.png'
 import LogoutButton from '@component/header/logout'
 import HeaderNav from '@component/header/nav'
 import {
   IconAccount,
+  IconCopy,
   IconEllipsis,
   IconHistory,
   IconLock,
@@ -59,8 +61,10 @@ export default function AppHeader() {
 
   return (
     <header>
-      <div className={`container ${pathname === '/app' ? 'chat' : 'normal'}`}>
-        <Link className="brand" href="/app">
+      <div
+        className={`container ${pathname.includes('/settings') ? 'normal' : 'chat'}`}
+      >
+        <Link className="brand" href="/chat">
           <Image src={Logo} alt="Logo" />
         </Link>
 
@@ -68,16 +72,36 @@ export default function AppHeader() {
           className={`main-menu ${menu ? 'dropdown-visible' : 'dropdown-invisible'}`}
         >
           <HeaderNav
-            href="/app"
+            href="/chat"
             style={{
-              opacity: pathname === '/app' ? 0 : 1,
-              pointerEvents: pathname === '/app' ? 'none' : 'auto'
+              opacity:
+                pathname.includes('/settings') ||
+                pathname.includes('/chat/thread')
+                  ? 1
+                  : 0,
+              pointerEvents:
+                pathname.includes('/settings') ||
+                pathname.includes('/chat/thread')
+                  ? 'auto'
+                  : 'none'
             }}
           >
             <IconPencil />
             <div className="tooltip">New Chat</div>
           </HeaderNav>
-
+          <HeaderNav
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href)
+              toast.success('Thread URL copied to clipboard')
+            }}
+            style={{
+              opacity: pathname.includes('/chat/thread') ? 1 : 0,
+              pointerEvents: pathname.includes('/chat/thread') ? 'auto' : 'none'
+            }}
+          >
+            <IconCopy />
+            <div className="tooltip">Share Thread</div>
+          </HeaderNav>
           <HeaderNav onClick={() => setHistoryPopup(true)}>
             <IconHistory />
             <div className="tooltip">History</div>
@@ -103,13 +127,13 @@ export default function AppHeader() {
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Escape' && setMenu(false)}
           >
-            <HeaderNav href="/app/settings">
+            <HeaderNav href="/chat/settings">
               <IconAccount /> Account
             </HeaderNav>
-            <HeaderNav href="/app/settings/profile">
+            <HeaderNav href="/chat/settings/profile">
               <IconProfile /> Profile
             </HeaderNav>
-            <HeaderNav href="/app/settings/security">
+            <HeaderNav href="/chat/settings/security">
               <IconLock /> Security
             </HeaderNav>
             <LogoutButton />

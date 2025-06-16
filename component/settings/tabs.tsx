@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const tabs = [
-  { label: 'account', href: '/app/settings' },
-  { label: 'profile', href: '/app/settings/profile' },
-  { label: 'security', href: '/app/settings/security' }
+  { label: 'account', href: '/chat/settings' },
+  { label: 'profile', href: '/chat/settings/profile' },
+  { label: 'security', href: '/chat/settings/security' }
 ]
 
 export default function SettingsTabs() {

@@ -10,10 +10,10 @@ import type { SSOProps } from '@component/shared/sso'
 /*
  * Builds the GitHub OAuth2 authorization URL.
  *
- * @param redirectPath - The app‐relative path to return to after auth (e.g. "/app/settings").
+ * @param redirectPath - The app‐relative path to return to after auth (e.g. "/chat").
  * @returns A full GitHub OAuth2 URL that will send the user to GitHub's consent page.
  */
-export function getGitHubAuthUrl(redirectPath: 'app' | 'settings'): string {
+export function getGitHubAuthUrl(redirectPath: 'chat' | 'settings'): string {
   const rootUrl = 'https://github.com/login/oauth/authorize'
   const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID as string
   const appUrl = process.env.NEXT_PUBLIC_APP_URL as string
@@ -25,7 +25,7 @@ export function getGitHubAuthUrl(redirectPath: 'app' | 'settings'): string {
     throw new Error('NEXT_PUBLIC_APP_URL is not defined')
   }
 
-  const encodedPath = encodeURIComponent(redirectPath || '/app')
+  const encodedPath = encodeURIComponent(redirectPath || '/chat')
   const redirectUri = `${appUrl}/api/sso/github?path=${encodedPath}`
 
   const params = new URLSearchParams({
@@ -38,14 +38,14 @@ export function getGitHubAuthUrl(redirectPath: 'app' | 'settings'): string {
 }
 
 export interface GithubSSOProps extends SSOProps {
-  redirect?: 'app' | 'settings'
+  redirect?: 'chat' | 'settings'
 }
 
 export default function GithubSSO({
   loading = false,
   text = 'Login with Github',
   action = 'connect',
-  redirect = 'app',
+  redirect = 'chat',
   onSuccess
 }: GithubSSOProps) {
   const githubRedirect = useCallback(() => {

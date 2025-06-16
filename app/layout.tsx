@@ -12,12 +12,12 @@ export interface LayoutProps {
   children: ReactNode
 }
 
-export default function RootLayout({ children }: LayoutProps) {
+export default async function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
       <body>
         <GoogleOAuthProvider
-          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
         >
           {children}
         </GoogleOAuthProvider>
