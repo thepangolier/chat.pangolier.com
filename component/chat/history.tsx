@@ -1,13 +1,16 @@
 'use client'
 import '@scss/chat/history.scss'
 import Link from 'next/link'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { listThreadsAction, type ThreadSummary } from '@action/chat/list'
 import { IconChat } from '@component/shared/icon'
 import { useSession } from '@context/session'
 
 export default function ChatHistory() {
-  const { historyPopup, setHistoryPopup } = useSession()
+  const { account, historyPopup, setHistoryPopup } = useSession()
   const menuRef = useRef<HTMLDivElement | null>(null)
+  const [query, setQuery] = useState('')
+  const [threads, setThreads] = useState<ThreadSummary[]>([])
 
   const handleDocumentClick = useCallback(
     (evt: MouseEvent) => {
@@ -26,6 +29,15 @@ export default function ChatHistory() {
     return () => document.removeEventListener('mousedown', handleDocumentClick)
   }, [historyPopup, handleDocumentClick])
 
+  // Fetch thread list whenever the history popup opens or the query changes
+  useEffect(() => {
+    if (!historyPopup) return
+    ;(async () => {
+      const res = await listThreadsAction({ accountId: account.id, query })
+      if (res.ok && res.result) setThreads(res.result)
+    })()
+  }, [historyPopup, account.id, query])
+
   return (
     <div id="history" className={historyPopup ? 'visible' : 'invisible'}>
       <div
@@ -36,17 +48,30 @@ export default function ChatHistory() {
         tabIndex={-1}
       >
         <div className="history-search">
-          <input type="text" placeholder="Search..." />
+          <input
+            type="text"
+            placeholder="Search..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
           <IconChat />
         </div>
         <div className="history-data">
           <div className="history-threads">
-            {new Array(5).fill(0).map((_, i) => (
-              <Link href="/chat" key={i}>
+            {threads.map((thread) => (
+              <Link
+                href={`/chat/thread/${thread.id}`}
+                key={thread.id}
+                onClick={() => {
+                  setHistoryPopup(false)
+                }}
+              >
                 <p className="timestamp">
-                  {new Date(1750028820431).toDateString()}
+                  {thread.lastMessageAt
+                    ? new Date(thread.lastMessageAt).toDateString()
+                    : ''}
                 </p>
-                <p className="title">Lorem Ipsum Dolore et</p>
+                <p className="title">{thread.title}</p>
               </Link>
             ))}
           </div>

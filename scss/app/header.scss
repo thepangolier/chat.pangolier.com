@@ -24,6 +24,14 @@ header {
     box-shadow: 0 0 20px 5px $g-shadow;
   }
 
+  @media (width <= 420px) {
+    padding: 0;
+
+    div.container {
+      border-radius: 0;
+    }
+  }
+
   a.brand {
     display: flex;
     align-items: center;
@@ -57,7 +65,7 @@ header {
     align-items: center;
     justify-content: center;
     height: 100%;
-    padding: 0 $hug;
+    padding: 0 $hug 0 0;
 
     &.dropdown-visible {
       pointer-events: none;
@@ -111,6 +119,10 @@ header {
     border-radius: 0 0 $c-radius $c-radius;
     overflow: hidden;
     z-index: 10;
+
+    @media (width <= 420px) {
+      right: 0;
+    }
 
     &.invisible {
       opacity: 0;

@@ -37,6 +37,7 @@ div#history {
     border-bottom: 1px solid $sc;
 
     input {
+      font-size: 21px;
       height: 60px;
       padding: 0 calc($hug * 4) 0 calc($hug * 2);
       border-radius: 0;
@@ -81,6 +82,37 @@ div#history {
         &:hover {
           background: rgba($pc, 0.1);
         }
+      }
+    }
+  }
+
+
+  @media (width <= 920px) {
+    justify-content: flex-end;
+
+    div.history-content {
+      border-radius: $c-radius;;
+    }
+
+    div.history-search {
+      input {
+        font-size: 16px;
+        height: 42px;
+        padding: 0 calc($hug * 3) 0 $hug;
+      }
+
+      svg {
+        font-size: 18px;
+        top: 12px;
+        right: $hug;
+      }
+    }
+
+    div.history-data {
+      height: calc(100vh - 130px);
+
+      div.history-threads {
+        width: 100%;
       }
     }
   }

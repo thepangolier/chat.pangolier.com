@@ -72,6 +72,19 @@ export default function AppHeader() {
           className={`main-menu ${menu ? 'dropdown-visible' : 'dropdown-invisible'}`}
         >
           <HeaderNav
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href)
+              toast.success('Thread URL copied to clipboard')
+            }}
+            style={{
+              opacity: pathname.includes('/chat/thread') ? 1 : 0,
+              pointerEvents: pathname.includes('/chat/thread') ? 'auto' : 'none'
+            }}
+          >
+            <IconCopy />
+            <div className="tooltip">Share Thread</div>
+          </HeaderNav>
+          <HeaderNav
             href="/chat"
             style={{
               opacity:
@@ -88,19 +101,6 @@ export default function AppHeader() {
           >
             <IconPencil />
             <div className="tooltip">New Chat</div>
-          </HeaderNav>
-          <HeaderNav
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href)
-              toast.success('Thread URL copied to clipboard')
-            }}
-            style={{
-              opacity: pathname.includes('/chat/thread') ? 1 : 0,
-              pointerEvents: pathname.includes('/chat/thread') ? 'auto' : 'none'
-            }}
-          >
-            <IconCopy />
-            <div className="tooltip">Share Thread</div>
           </HeaderNav>
           <HeaderNav onClick={() => setHistoryPopup(true)}>
             <IconHistory />

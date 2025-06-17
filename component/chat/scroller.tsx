@@ -1,71 +1,69 @@
+'use client'
 import '@scss/chat/scroller.scss'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-/**
- * ChatScroller
- *
- * A floating "Scroll to Bottom" button that appears only when the user is NOT at the bottom
- * of the page. While the user is at the bottom and new messages arrive (increasing the
- * document height), the page will automatically keep scrolling to the bottom so the user
- * always sees the latest message.
+/*
+ * Floating “Scroll to Bottom” helper that:
+ * • Auto-scrolls only while the sentinel (page bottom) is visible.
+ * • Lets the user scroll up freely during rapid streaming.
+ * • Shows a button whenever history overflows and the user isn’t at the bottom.
  */
 export default function ChatScroller() {
-  // Whether the button should be visible. When `true`, user is *not* at the bottom.
+  /* ------------------------------------------------------------------ */
+  /* State & refs                                                       */
+  /* ------------------------------------------------------------------ */
   const [showButton, setShowButton] = useState(false)
+  const sentinelRef = useRef<HTMLDivElement | null>(null)
+  const stickToBottomRef = useRef(true)
 
-  /**
-   * Determines if the viewport is at (or very near) the bottom of the page.
-   */
-  const isAtBottom = useCallback(() => {
-    const threshold = 100
-    return (
-      window.innerHeight + window.scrollY >=
-      document.body.scrollHeight - threshold
-    )
-  }, [])
-
-  /**
-   * Update the visibility of the button based on current scroll position.
-   */
-  const updateButtonVisibility = useCallback(() => {
-    setShowButton(!isAtBottom())
-  }, [isAtBottom])
-
+  /* ------------------------------------------------------------------ */
+  /* Mount a sentinel at the very end of <body>                         */
+  /* ------------------------------------------------------------------ */
   useEffect(() => {
-    // Initial check (in case page loads scrolled somewhere in the middle)
-    updateButtonVisibility()
+    // Create a 1 px-high marker so IntersectionObserver can track it.
+    const sentinel = document.createElement('div')
+    sentinel.style.cssText = 'height:1px;width:100%;'
+    document.body.appendChild(sentinel)
+    sentinelRef.current = sentinel
 
-    const handleScroll = () => {
-      updateButtonVisibility()
-    }
+    /* IntersectionObserver → are we at the bottom? */
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        stickToBottomRef.current = entry.isIntersecting
+        const overflowing =
+          document.body.scrollHeight - window.innerHeight > 16 /* 1 rem */
+        setShowButton(!entry.isIntersecting && overflowing)
+      },
+      { threshold: 0 } // any visibility counts
+    )
+    io.observe(sentinel)
 
-    // Listen to manual scrolling
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    // Observe changes to <body> height so we can auto-scroll when new messages push the
-    // bottom further down while the user is already at the bottom.
-    const resizeObserver = new ResizeObserver(() => {
-      if (isAtBottom()) {
-        // Keep user glued to bottom as new content streams in
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: 'smooth'
-        })
+    /* ResizeObserver → keep auto-scrolling while “stuck” to bottom */
+    const ro = new ResizeObserver(() => {
+      if (stickToBottomRef.current) {
+        sentinel.scrollIntoView({ block: 'end', behavior: 'auto' })
       }
     })
+    ro.observe(document.body)
 
-    resizeObserver.observe(document.body)
-
+    /* Cleanup */
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-      resizeObserver.disconnect()
+      io.disconnect()
+      ro.disconnect()
+      document.body.removeChild(sentinel)
     }
-  }, [updateButtonVisibility, isAtBottom])
+  }, [])
 
-  const scrollToBottom = () => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+  /* ------------------------------------------------------------------ */
+  /* Handler: user-initiated scroll to bottom                           */
+  /* ------------------------------------------------------------------ */
+  const scrollToBottom = (): void => {
+    sentinelRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' })
   }
 
+  /* ------------------------------------------------------------------ */
+  /* Render                                                             */
+  /* ------------------------------------------------------------------ */
   return (
     <button
       id="scroll-to-bottom"

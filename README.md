@@ -8,7 +8,7 @@ Read the full write-up on Pangolier Chat [in this article](https://pangolier.com
 
 I was inspired by T3 Chat’s original idea of chat branching and wanted to take it a step further by adding real-time collaboration. Pangolier Chat lets you see other users’ cursors in the interface and view a comprehensive tree of the conversation, including each branch.
 
-T3 Chat also features strong visual design fundamentals (spacing, padding, and color contrast). Replicating and refining those elements with my own touches was a valuable exercise.
+T3 Chat also features strong visual design fundamentals (spacing, padding, and color contrast). I wanted to fuse it together with Grok's design aesthetic and added the "Pangolier" design aesthetic ontop.
 
 I also wanted to showcase that Redis is the most scalable choice for real-time, interactive chat applications, especially with its recent updates for [JSON support](https://redis.io/docs/latest/develop/data-types/json/).
 
@@ -23,6 +23,7 @@ If people show interest in the project, here are some good ideas:
 - Universal Search Tool Call (Google Search API)
 - MCP Remote Server Support
 - Finish Collaborative Features
+- Improve Composability/Tech Debt
 
 ## Quick start
 
