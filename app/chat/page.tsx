@@ -1,3 +1,5 @@
+import ChatInterface from '@component/chat/interface'
+
 export default function ChatPage() {
-  return null
+  return <ChatInterface initialMessages={[]} />
 }

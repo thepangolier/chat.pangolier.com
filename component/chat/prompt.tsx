@@ -1,9 +1,11 @@
 'use client'
 import '@scss/chat/prompt.scss'
 import type { ChatRequestOptions } from 'ai'
+import { useMemo } from 'react'
+import TextareaAutosize from 'react-textarea-autosize'
 import ModelCatalogue from '@component/chat/catalogue'
 import ChatScroller from '@component/chat/scroller'
-import { IconSend, IconStop } from '@component/shared/icon'
+import { IconSend, IconSpinner, IconStop } from '@component/shared/icon'
 
 export interface PromptBarProps {
   status: 'submitted' | 'streaming' | 'ready' | 'error'
@@ -26,6 +28,17 @@ export default function PromptBar({
   handleSubmit,
   stop
 }: PromptBarProps) {
+  const icon = useMemo(() => {
+    switch (status) {
+      case 'streaming':
+        return <IconStop />
+      case 'ready':
+        return <IconSend />
+      default:
+        return <IconSpinner />
+    }
+  }, [status])
+
   return (
     <div id="prompt">
       {status === 'error' && (
@@ -47,7 +60,7 @@ export default function PromptBar({
         }}
         className={status}
       >
-        <textarea
+        <TextareaAutosize
           placeholder="Type your message here..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -73,7 +86,7 @@ export default function PromptBar({
             }
           }}
         >
-          {status !== 'ready' ? <IconStop /> : <IconSend />}
+          {icon}
         </button>
       </form>
     </div>

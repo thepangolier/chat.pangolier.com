@@ -23,11 +23,25 @@ div#settings {
         border: $pc-border;
       }
     }
+
+    @media (width <= 920px) {
+      display: none;
+    }
   }
 
   div.settings-content {
     padding: $hug 0 calc($hug * 2) $hug;
     width: calc(100% - 210px);
+
+
+    @media (width <= 920px) {
+      padding: $hug 0;
+      width: 100%;
+    }
+
+    @media (width <= 420px) {
+      padding: 0;
+    }
 
     h2 {
       font-size: 24px;
@@ -47,6 +61,7 @@ div#settings {
         height: 21px;
         margin: 0 10px 3px 0;
       }
+
     }
 
     div.settings-sso {
@@ -62,6 +77,20 @@ div#settings {
 
       button {
         width: 200px;
+      }
+
+      @media (width <= 640px) {
+        flex-direction: column;
+        align-items: flex-start;
+
+        h3 {
+          font-size: 16px;
+          padding: 0 0 10px;
+
+          img {
+            display: none;
+          }
+        }
       }
     }
 
@@ -104,6 +133,15 @@ div#settings {
 
         button.switch {
           margin: 0 10px;
+        }
+      }
+
+      @media (width <= 640px) {
+        flex-direction: column;
+        align-items: flex-start;
+
+        div.preference-info {
+          padding: 0 0 $hug;
         }
       }
     }

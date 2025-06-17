@@ -1,6 +1,7 @@
 'use server'
 import type { CoreMessage } from 'ai'
 import prisma from 'prisma/client'
+import { generateTitleAction } from '@action/chat/title'
 import type { GenericResponse } from '@action/types'
 import redis from '@util/redis'
 
@@ -43,7 +44,12 @@ export async function sendMessageAction({
   // create a brand-new thread and register the sender as the first participant.
   let effectiveThreadId = threadId ?? 0
   if (!effectiveThreadId) {
-    const newThread = await prisma.thread.create({ data: {} })
+    const newThread = await prisma.thread.create({
+      data: {
+        title:
+          (await generateTitleAction({ message: body })).result ?? 'New Thread'
+      }
+    })
     effectiveThreadId = newThread.id
 
     // Persist the sender as a participant of the new thread.

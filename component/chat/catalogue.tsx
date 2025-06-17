@@ -107,6 +107,7 @@ export default function ModelCatalogue() {
               {provider.models.map((model) => (
                 <button
                   key={model.value}
+                  className={`model-selector ${model.value === selectedModel.model ? 'selected' : 'available'}`}
                   type="button"
                   onClick={closeThen(() =>
                     handleSelect(provider.provider, model.value)
@@ -131,7 +132,9 @@ export default function ModelCatalogue() {
           {selectedModel.provider === 'openai' && <IconOpenAI />}
           {selectedModel.provider === 'gemini' && <IconGemini />}
           {selectedModel.provider === 'xai' && <IconXAI />}
-          {selectedModel.model.replaceAll('-', ' ')}
+          <span className="hide-mobile">
+            {selectedModel.model.replaceAll('-', ' ')}
+          </span>
         </button>
 
         {supportsReasoning(selectedModel.provider, selectedModel.model) && (
@@ -185,8 +188,8 @@ export default function ModelCatalogue() {
             className={`model-grounding ${useSearchGrounding ? 'active' : ''}`}
             onClick={() => setUseSearchGrounding((prev) => !prev)}
           >
-            <IconSearch />
-            Search {useSearchGrounding ? 'On' : 'Off'}
+            <IconSearch /> <span className="hide-mobile">Search</span>{' '}
+            {useSearchGrounding ? 'On' : 'Off'}
           </button>
         )}
       </div>

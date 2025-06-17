@@ -1,20 +1,50 @@
 'use client'
-import { useParams, usePathname, useRouter } from 'next/navigation'
-import { startTransition, useEffect, useState } from 'react'
-import { sendMessageAction } from '@action/chat/sendMessage'
+import { useParams, useRouter } from 'next/navigation'
+import {
+  type FormEvent,
+  startTransition,
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
+import { type PersistedMessage, sendMessageAction } from '@action/chat/send'
 import { useChat } from '@ai-sdk/react'
 import Message from '@component/chat/message'
 import PromptBar from '@component/chat/prompt'
 import { useSession } from '@context/session'
 
-export default function ChatInterface() {
+export interface ChatInterfaceProps {
+  initialMessages?: PersistedMessage[]
+}
+
+export default function ChatInterface({
+  initialMessages = []
+}: ChatInterfaceProps) {
   const { account, model, reasoning, useSearchGrounding } = useSession()
-  const params = useParams<{ id?: string }>()
-  const pathname = usePathname()
   const router = useRouter()
+  const params = useParams<{ id?: string }>()
+  const isThreadRoute = Boolean(params?.id)
   const [threadId, setThreadId] = useState<number | undefined>(
-    params?.id ? Number(params.id) : undefined
+    isThreadRoute ? Number(params!.id) : undefined
   )
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (isThreadRoute) setThreadId(Number(params!.id))
+  }, [isThreadRoute, params])
+
+  useEffect(() => {
+    if (!isThreadRoute) setThreadId(undefined)
+  }, [isThreadRoute])
+
+  const mappedInitial = initialMessages.map(({ id, role, content }) => ({
+    id,
+    role:
+      role === 'tool'
+        ? 'data'
+        : (role as 'system' | 'user' | 'assistant' | 'data'),
+    content: typeof content === 'string' ? content : JSON.stringify(content)
+  }))
 
   const {
     messages,
@@ -22,14 +52,15 @@ export default function ChatInterface() {
     error,
     input,
     setInput,
-    setMessages,
-    handleSubmit: aiHandleSubmit,
+    handleSubmit,
     stop,
     experimental_resume
   } = useChat({
     api: '/api/chat',
     experimental_throttle: 50,
+    initialMessages: mappedInitial,
     body: {
+      threadId,
       provider: model.provider,
       model: model.model,
       reasoning,
@@ -37,54 +68,59 @@ export default function ChatInterface() {
     }
   })
 
-  // Reset chat when routing to new chat page
+  const onSubmit = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault()
+      if (!input.trim()) return
+      setIsSubmitting(true)
+
+      const payload = await sendMessageAction({
+        threadId: threadId ?? 0,
+        senderId: account.id,
+        message: { role: 'user', content: input }
+      })
+      if (!payload.ok) return
+
+      if (!threadId) setThreadId(payload.result!.threadId)
+
+      handleSubmit(undefined, {
+        body: { threadId: threadId ?? payload.result!.threadId }
+      })
+      setIsSubmitting(false)
+    },
+    [threadId, account.id, input, handleSubmit]
+  )
+
   useEffect(() => {
-    if (pathname === '/chat') {
-      setInput('')
-      setMessages([])
-      setThreadId(undefined)
+    if (
+      !isThreadRoute &&
+      threadId &&
+      status === 'ready' &&
+      messages.some((m) => m.role === 'assistant')
+    ) {
+      startTransition(() => router.push(`/chat/thread/${threadId}`))
     }
-  }, [pathname, setInput, setMessages])
+  }, [isThreadRoute, threadId, status, messages, router])
 
   return (
     <div id="chat">
       <div className="container chat">
         <div className="message-container">
-          {messages.map((message) => (
-            <Message key={message.id} message={message} />
+          {messages.map((m) => (
+            <Message key={m.id} message={m} />
           ))}
         </div>
+
         <PromptBar
-          status={status}
+          status={isSubmitting ? 'submitted' : status}
           error={error}
           input={input}
           setInput={setInput}
-          handleSubmit={wrappedHandleSubmit}
+          handleSubmit={onSubmit}
           stop={stop}
           experimental_resume={experimental_resume}
         />
       </div>
     </div>
   )
-
-  async function wrappedHandleSubmit(event?: { preventDefault?: () => void }) {
-    if (event?.preventDefault) event.preventDefault()
-    if (!input.trim()) return
-
-    const res = await sendMessageAction({
-      threadId: threadId ?? 0,
-      senderId: account.id,
-      message: { role: 'user', content: input }
-    })
-
-    if (res.ok && res.result) {
-      if (!threadId) {
-        const newId = res.result.threadId
-        setThreadId(newId)
-        startTransition(() => router.push(`/chat/thread/${newId}`))
-      }
-    }
-
-    aiHandleSubmit()
-  }
 }
