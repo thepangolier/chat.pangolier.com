@@ -21,6 +21,7 @@ div#catalogue {
   &.invisible {
     transform: translateY(500px);
     opacity: 0;
+    pointer-events: none;
   }
 
   div.cat-main-header {

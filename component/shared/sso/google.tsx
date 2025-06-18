@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import {
   GoogleDisconnectAction,
@@ -16,6 +17,7 @@ export default function GoogleSSO({
   action = 'connect',
   onSuccess
 }: SSOProps) {
+  const [isLoading, setIsLoading] = useState(false)
   const login = useGoogleLogin({
     scope: 'openid email profile',
     async onSuccess(tokenResponse: TokenResponse) {
@@ -36,8 +38,9 @@ export default function GoogleSSO({
   return (
     <button
       id="google"
-      disabled={loading}
+      disabled={loading || isLoading}
       onClick={async () => {
+        setIsLoading(true)
         if (action === 'connect' || action === 'login') {
           await login()
         } else {
@@ -49,9 +52,10 @@ export default function GoogleSSO({
             toast.error(payload.message)
           }
         }
+        setIsLoading(false)
       }}
     >
-      {loading ? (
+      {loading || isLoading ? (
         <IconSpinner />
       ) : (
         <>

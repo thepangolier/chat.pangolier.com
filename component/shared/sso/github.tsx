@@ -13,25 +13,19 @@ import type { SSOProps } from '@component/shared/sso'
  * @param redirectPath - The app‐relative path to return to after auth (e.g. "/chat").
  * @returns A full GitHub OAuth2 URL that will send the user to GitHub's consent page.
  */
-export function getGitHubAuthUrl(redirectPath: 'chat' | 'settings'): string {
+export function getGitHubAuthUrl(next: 'chat' | 'settings'): string {
   const rootUrl = 'https://github.com/login/oauth/authorize'
-  const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID as string
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL as string
+  const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID!
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL!
+  const redirect = `${appUrl}/api/sso/github`
 
-  if (!clientId) {
-    throw new Error('NEXT_PUBLIC_GITHUB_CLIENT_ID is not defined')
-  }
-  if (!appUrl) {
-    throw new Error('NEXT_PUBLIC_APP_URL is not defined')
-  }
-
-  const encodedPath = encodeURIComponent(redirectPath || '/chat')
-  const redirectUri = `${appUrl}/api/sso/github?path=${encodedPath}`
+  const state = encodeURIComponent(next)
 
   const params = new URLSearchParams({
     client_id: clientId,
-    redirect_uri: redirectUri,
-    scope: 'read:user'
+    redirect_uri: redirect,
+    scope: 'read:user',
+    state
   })
 
   return `${rootUrl}?${params.toString()}`

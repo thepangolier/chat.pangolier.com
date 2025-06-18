@@ -15,7 +15,7 @@ interface ReasoningPart {
  * Persists the assistant reply once streaming has finished.
  */
 export default async function persistAssistantMessage(
-  threadId: number,
+  threadId: string,
   text: string,
   reasoningText?: string | undefined
 ): Promise<void> {
@@ -48,7 +48,7 @@ export default async function persistAssistantMessage(
   const persisted: PersistedMessage = {
     id,
     threadId,
-    senderId: 0,
+    senderId: '',
     role: 'assistant',
     content: body,
     parts,

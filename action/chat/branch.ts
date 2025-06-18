@@ -5,14 +5,14 @@ import redis from '@util/redis'
 
 export interface BranchThreadParams {
   /** Original thread id to branch from */
-  threadId: number
+  threadId: string
   /** Account initiating the branch */
-  accountId: number
+  accountId: string
 }
 
 export interface BranchThreadResult extends GenericResponse {
   /** Newly created thread id */
-  newThreadId?: number
+  newThreadId?: string
 }
 
 /**
@@ -42,7 +42,7 @@ export async function branchThreadAction({
   await prisma.threadParticipant.create({
     data: { threadId: newThread.id, accountId }
   })
-  await redis.sadd(`thread:${newThread.id}:participants`, String(accountId))
+  await redis.sadd(`thread:${newThread.id}:participants`, accountId)
 
   // Copy messages from the original Redis stream to the new thread.
   const srcKey = `thread:${threadId}:stream`
@@ -62,7 +62,7 @@ export async function branchThreadAction({
       destKey,
       '*',
       'senderId',
-      obj['senderId'] ?? '0',
+      obj['senderId'] ?? '',
       'role',
       obj['role'] ?? 'user',
       'body',
