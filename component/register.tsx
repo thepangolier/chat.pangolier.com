@@ -27,7 +27,7 @@ export default function RegisterForm() {
     <div className="login-card">
       <div className="login-copy">
         <div className="login-brand">
-          <Image src={logo} alt="Logo" />
+          <Image src={logo} alt="Logo" priority />
           <h2>Sign Up</h2>
         </div>
         <p>Sign up for {title}</p>

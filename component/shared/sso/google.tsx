@@ -55,7 +55,7 @@ export default function GoogleSSO({
         <IconSpinner />
       ) : (
         <>
-          <Image src={GoogleLogo} alt="Google Logo" />
+          <Image src={GoogleLogo} alt="Google Logo" priority />
           {text}
         </>
       )}

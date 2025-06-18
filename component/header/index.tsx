@@ -65,7 +65,7 @@ export default function AppHeader() {
         className={`container ${pathname.includes('/settings') ? 'normal' : 'chat'}`}
       >
         <Link className="brand" href="/chat">
-          <Image src={Logo} alt="Logo" />
+          <Image src={Logo} alt="Logo" priority />
         </Link>
 
         <div

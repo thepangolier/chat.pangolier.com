@@ -30,12 +30,13 @@ If people show interest in the project, here are some good ideas:
 - Image Generation
 - Finish Collaborative Features
 - Syntax Highlighting (with Shiki?)
+- Katex Highlighting
 - OpenAI Reasoning Support
 - SSE and Real time client sync
 - Resume Streams/Retry
 - **Improve Composability/Tech Debt**
 
-Feel free to pitch in, but, if people want to use this project these are the priority tasks.
+Contributions are welcome, in general, accepted PRs will only be revolved around the above scope.
 
 ## Quick start
 

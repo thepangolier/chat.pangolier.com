@@ -74,7 +74,7 @@ export default function GithubSSO({
         <IconSpinner />
       ) : (
         <>
-          <Image src={GithubLogo} alt="Github Logo" />
+          <Image src={GithubLogo} alt="Github Logo" priority />
           {text}
         </>
       )}

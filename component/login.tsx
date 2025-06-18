@@ -22,7 +22,7 @@ export default function LoginForm() {
     <div className="login-card">
       <div className="login-copy">
         <div className="login-brand">
-          <Image src={logo} alt="Logo" />
+          <Image src={logo} alt="Logo" priority />
           <h2>Sign In</h2>
         </div>
         <p>Sign in to {title}</p>
