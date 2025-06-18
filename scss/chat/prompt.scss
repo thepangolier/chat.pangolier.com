@@ -34,7 +34,7 @@ div#prompt {
       transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out, opacity 0.2s ease-in-out, height 0.1s ease-in-out;
 
       @media (width <= 720px) {
-        font-size: 14px;
+        font-size: 16px;
         padding: $hug;
         padding-bottom: 50px;
       }
