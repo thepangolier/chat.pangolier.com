@@ -7,7 +7,7 @@ import redis from '@util/redis'
 
 export interface GetMessagesParams {
   /** Thread id to fetch */
-  threadId: number
+  threadId: string
   /** How many messages to return (latest first). 0 or undefined = all. */
   limit?: number
 }
@@ -15,7 +15,7 @@ export interface GetMessagesParams {
 export interface GetMessagesResult extends GenericResponse {
   /** Basic info about the thread we fetched */
   thread?: {
-    id: number
+    id: string
     title: string | null
   }
   /** Array of persisted messages */
@@ -67,7 +67,7 @@ export async function getThreadMessagesAction({
       messages.push({
         id,
         threadId,
-        senderId: Number(obj['senderId']),
+        senderId: obj['senderId'],
         role: obj['role'] as CoreMessage['role'],
         parts: (() => {
           const raw = obj['parts']

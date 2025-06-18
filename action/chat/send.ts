@@ -7,8 +7,8 @@ import redis from '@util/redis'
 
 export type PersistedMessage = CoreMessage & {
   id: string
-  threadId: number
-  senderId: number
+  threadId: string
+  senderId: string
   createdAt: number
   attachments?: string[]
   parts?: { type: 'text' | 'reasoning'; text?: string; reasoning?: string }[]
@@ -21,8 +21,8 @@ export interface SendMessageParams {
    * Existing thread to post a message to.
    * Omit or pass `0` to create a brand-new thread and persist the first message.
    */
-  threadId?: number
-  senderId: number
+  threadId?: string
+  senderId: string
   message: MessagePayload
 }
 
@@ -43,7 +43,7 @@ export async function sendMessageAction({
 
   // Determine the thread we are working with. If `threadId` is not supplied or is `0`,
   // create a brand-new thread and register the sender as the first participant.
-  let effectiveThreadId = threadId ?? 0
+  let effectiveThreadId = threadId ?? ''
   if (!effectiveThreadId) {
     const newThread = await prisma.thread.create({
       data: {

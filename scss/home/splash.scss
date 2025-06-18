@@ -6,20 +6,34 @@ div#splash {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 1250px;
+  max-width: 1650px;
   min-height: 100vh;
   padding-bottom: 30px;
   margin: auto;
 
   div.splash-copy {
     width: 100%;
-    max-width: 520px;
+    max-width: 640px;
     text-align: center;
     padding: $hug;
   }
 
   div#mock {
-    width: calc(100% - 520px);
+    width: calc(100% - 640px);
+  }
+
+  @media (width <= 1024px) {
+    flex-direction: column;
+
+    div.splash-copy {
+      padding-top: 60px;
+    }
+
+    div#mock {
+      width: 900px;
+      margin: auto;
+    }
+
   }
 
   div.splash-brand {
