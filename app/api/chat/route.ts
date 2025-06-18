@@ -1,7 +1,9 @@
 import { type CoreMessage, type JSONValue, smoothStream, streamText } from 'ai'
 import persistAssistantMessage from '@ai/persist'
 import getProvider, { type ProviderName } from '@ai/provider'
+import { guardFreeQuota } from '@ai/quota'
 import { type GoogleGenerativeAIProviderOptions } from '@ai-sdk/google'
+import getSession from '@util/session'
 import { supportsReasoning } from '@util/support'
 
 /**
@@ -44,6 +46,13 @@ export async function POST(req: Request) {
     reasoning = 'low',
     useSearchGrounding = false
   } = (await req.json()) as ChatBody
+  const { account } = await getSession()
+  if (!account) {
+    return new Response('Unauthorized', { status: 401 })
+  }
+
+  const quotaResponse = await guardFreeQuota(account!.id, threadId)
+  if (quotaResponse) return quotaResponse
 
   const providerOptions: LanguageModelV1ProviderMetadata = {}
 

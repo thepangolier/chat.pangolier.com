@@ -25,6 +25,7 @@ model Account {
   targetEmail      String?
   targetCode       String?
   active           Boolean             @default(true)
+  freeMessagesRemaining Int            @default(5)
   threads          ThreadParticipant[]
   dateCreated      DateTime            @default(now())
   dateUpdated      DateTime            @updatedAt
