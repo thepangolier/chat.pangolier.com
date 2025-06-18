@@ -1,0 +1,62 @@
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/button" as button;
+
+div#splash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1250px;
+  min-height: 100vh;
+  padding-bottom: 30px;
+  margin: auto;
+
+  div.splash-copy {
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+    padding: $hug;
+  }
+
+  div#mock {
+    width: calc(100% - 520px);
+  }
+
+  div.splash-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    transition: background 0.2s ease-in-out;
+    padding: 0 0 $hug;
+
+    img {
+      width: calc($c-size * 2);
+      height: calc($c-size * 2);
+      border-radius: 50%;
+      margin: 0 10px 0 0;
+      background: $sc;
+      border: $pc-border;
+      box-shadow: 0 0 20px 5px $g-shadow;
+    }
+  }
+
+  div.splash-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $hug 0;
+
+    a {
+      @include button.generic;
+
+      & {
+        margin: 10px;
+        width: 160px;
+        height: $c-size;
+        font-size: 18px;
+      }
+    }
+  }
+}

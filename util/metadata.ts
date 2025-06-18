@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const title = 'Pangolier Chat'
 
-export const defaultBrand = 'Chat By Pangolier'
+export const defaultBrand = 'Pangolier Chat'
 
 export const defaultDescription =
   'A free, open-source chat app built for seamless collaboration'

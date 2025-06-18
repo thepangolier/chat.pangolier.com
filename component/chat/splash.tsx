@@ -23,7 +23,7 @@ export default function ChatSplash({ setInput }: ChatSplashProps) {
   return (
     <div id="chat-splash">
       <div className="splash-brand">
-        <Image src={Logo} alt="Logo" />
+        <Image src={Logo} alt="Logo" priority />
         {title}
       </div>
       <p className="copy">

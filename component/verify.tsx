@@ -17,7 +17,7 @@ export default function VerifyForm() {
     <div className="login-card">
       <div className="login-copy">
         <div className="login-brand">
-          <Image src={logo} alt="Logo" />
+          <Image src={logo} alt="Logo" priority />
           <h2>Verify</h2>
         </div>
         <p>A code has been sent to your email address</p>

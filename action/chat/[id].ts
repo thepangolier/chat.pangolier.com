@@ -1,5 +1,6 @@
 'use server'
 import type { CoreMessage } from 'ai'
+import prisma from 'prisma/client'
 import { type PersistedMessage } from '@action/chat/send'
 import type { GenericResponse } from '@action/types'
 import redis from '@util/redis'
@@ -12,6 +13,12 @@ export interface GetMessagesParams {
 }
 
 export interface GetMessagesResult extends GenericResponse {
+  /** Basic info about the thread we fetched */
+  thread?: {
+    id: number
+    title: string | null
+  }
+  /** Array of persisted messages */
   result?: PersistedMessage[]
 }
 
@@ -32,6 +39,12 @@ export async function getThreadMessagesAction({
           (arr) => arr.reverse() // restore chronological order
         )
       : await redis.xrange(streamKey, '-', '+')
+
+    // Fetch basic thread info in parallel
+    const threadPromise = prisma.thread.findUnique({
+      where: { id: threadId },
+      select: { id: true, title: true }
+    })
 
     const messages: PersistedMessage[] = []
 
@@ -71,7 +84,14 @@ export async function getThreadMessagesAction({
       } as PersistedMessage)
     }
 
-    return { ok: true, message: 'Messages fetched', result: messages }
+    const thread = await threadPromise
+
+    return {
+      ok: true,
+      message: 'Messages fetched',
+      thread: thread ? { id: thread.id, title: thread.title } : undefined,
+      result: messages
+    }
   } catch (error) {
     console.error('getThreadMessagesAction error:', error)
     return { ok: false, message: 'Failed to fetch messages' }
