@@ -1,9 +1,11 @@
 @use "sass:color" as color;
 @use "@scss/shared/theme" as *;
+@use "@scss/generic/button" as button;
 @use "@scss/generic/tooltip";
 @use "@scss/generic/gradient" as gradient;
 
 div.message-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -14,7 +16,7 @@ div.message-container {
 div.message {
   padding: $hug;
   font-size: 16px;
-  overflow: auto;
+  line-height: 1.75;
 
   &.user {
     width: auto;
@@ -39,7 +41,9 @@ div.message {
 
   pre {
     padding: $hug;
-    background: $bc;
+    margin: $hug calc($hug * -1);
+    background: rgba($sc, 0.1);
+    border: $pc-border;
     border-radius: $c-radius;
     overflow: auto;
     font-family: monospace;
@@ -52,13 +56,13 @@ div.message {
 
   code {
     background: $sc;
-    padding: calc($hug / 3);
-    border-radius: $c-radius;
+    padding: 2px 5px;
+    border-radius: 5px;
   }
 }
 
 div.model-reasoning {
-  margin: 0 0 $hug;
+  margin: 0 calc($hug * -1) $hug;
   padding: $hug;
   background: rgba($sc, 0.5);
   border: $pc-border;
@@ -114,6 +118,52 @@ div.model-reasoning {
     div.reasoning-toggle {
       div.tooltip {
         opacity: 1;
+      }
+    }
+  }
+}
+
+div.message-options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: $hug 0 0 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+
+  &.ready {
+    opacity: 1;
+    pointer-events: inherit
+  }
+
+  button {
+    @include button.generic;
+
+    & {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      margin: 0 10px 0 0;
+
+      svg {
+        margin: 0;
+        font-size: 12px;
+      }
+
+      div.tooltip {
+        width: 120px;
+        top: calc(100% + 10px);
+        left: 0;
+        background: rgba($sc, 0.5);
+        font-size: 11px;
+      }
+
+      &:hover {
+        div.tooltip {
+          opacity: 1;
+        }
       }
     }
   }

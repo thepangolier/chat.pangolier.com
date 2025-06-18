@@ -30,7 +30,7 @@ export default function RegisterForm() {
           <Image src={logo} alt="Logo" />
           <h2>Sign Up</h2>
         </div>
-        <p>Sign up for an {title} Web Application</p>
+        <p>Sign up for {title}</p>
       </div>
       <div className="login-forms">
         <form

@@ -11,6 +11,7 @@ export type PersistedMessage = CoreMessage & {
   senderId: number
   createdAt: number
   attachments?: string[]
+  parts?: { type: 'text' | 'reasoning'; text?: string; reasoning?: string }[]
 }
 
 export type MessagePayload = CoreMessage & { attachments?: string[] }

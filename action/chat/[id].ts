@@ -56,6 +56,15 @@ export async function getThreadMessagesAction({
         threadId,
         senderId: Number(obj['senderId']),
         role: obj['role'] as CoreMessage['role'],
+        parts: (() => {
+          const raw = obj['parts']
+          if (!raw) return undefined
+          try {
+            return JSON.parse(raw) as PersistedMessage['parts']
+          } catch {
+            return undefined
+          }
+        })(),
         content,
         createdAt: Number(id.split('-')[0]),
         attachments: undefined

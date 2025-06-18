@@ -1,39 +1,57 @@
 import prisma from 'prisma/client'
+import type { PersistedMessage } from '@action/chat/send'
 import redis from '@util/redis'
 
-/*
+interface TextPart {
+  type: 'text'
+  text: string
+}
+interface ReasoningPart {
+  type: 'reasoning'
+  reasoning: string
+}
+
+/**
  * Persists the assistant reply once streaming has finished.
- *
- * @param textPromise - Promise resolving to the final assistant text.
- * @param threadId    - Numeric identifier of the thread being updated.
  */
 export default async function persistAssistantMessage(
-  textPromise: Promise<string>,
-  threadId: number
+  threadId: number,
+  text: string,
+  reasoningText?: string | undefined
 ): Promise<void> {
-  const body = (await textPromise).trim()
-  if (!body) return
+  const body = text.trim()
+  const reasoning = reasoningText?.trim()
 
-  const streamKey = `thread:${threadId}:stream`
+  if (!body) return // nothing useful to store
 
-  const id = await redis.xadd(
-    streamKey,
-    '*',
+  const parts: (TextPart | ReasoningPart)[] | undefined = reasoning
+    ? [
+        { type: 'reasoning', reasoning },
+        { type: 'text', text: body }
+      ]
+    : undefined
+
+  const fieldValues: (string | number)[] = [
     'senderId',
     '0',
     'role',
     'assistant',
     'body',
     body
-  )
+  ]
+  if (parts) fieldValues.push('parts', JSON.stringify(parts))
+
+  const streamKey = `thread:${threadId}:stream`
+  const id = await redis.xadd(streamKey, '*', ...fieldValues)
   if (!id) return
 
-  const persisted = {
+  const persisted: PersistedMessage = {
     id,
     threadId,
     senderId: 0,
     role: 'assistant',
     content: body,
+    parts,
     createdAt: Date.now()
   }
 

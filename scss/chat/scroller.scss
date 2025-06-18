@@ -10,7 +10,7 @@ button#scroll-to-bottom {
     background: $panel-bg;
     border-radius: calc($c-size * 0.5);
     border: $pc-border;
-    transition: opacity 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
 
     &.invisible {
       opacity: 0;

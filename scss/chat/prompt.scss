@@ -158,6 +158,11 @@ div#prompt {
 
       svg {
         margin: 0;
+
+        &.icon-spinner {
+          transform-origin: center;
+          transform: scale(0.8);
+        }
       }
 
       @media (width <= 720px) {
