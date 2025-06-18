@@ -49,10 +49,10 @@ export async function GET(req: NextRequest) {
 
   try {
     const code = searchParams.get('code')
-    const pathParam = searchParams.get('path') as 'app' | 'settings'
+    const pathParam = searchParams.get('path') as 'chat' | 'settings'
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL
     const redirectPath =
-      pathParam === 'app' ? `${baseUrl}/app` : `${baseUrl}/app/settings`
+      pathParam === 'chat' ? `${baseUrl}/chat` : `${baseUrl}/chat/settings`
 
     console.log('Will redirect to', redirectPath)
 

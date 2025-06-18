@@ -1,3 +1,4 @@
+'use client'
 import '@scss/chat/messages.scss'
 import type { Message, UIMessage } from 'ai'
 import { useRouter } from 'next/navigation'
@@ -58,7 +59,7 @@ export function ReasoningPart({ reasoning, id }: ReasoningPartProps) {
 
 export interface MessageProps {
   message: UIMessage | Message
-  threadId: number | undefined
+  threadId: string | undefined
   status: 'submitted' | 'streaming' | 'ready' | 'error'
 }
 

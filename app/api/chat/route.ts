@@ -9,7 +9,7 @@ import { supportsReasoning } from '@util/support'
  */
 export interface ChatBody {
   /** Thread to associate the assistant response with */
-  threadId?: number
+  threadId?: string
   /** Array of messages to send to the AI provider. */
   messages: CoreMessage[]
   /** Optional provider to use (defaults to 'xai'). */

@@ -4,12 +4,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Account {
-  id               Int                 @id @default(autoincrement())
+  id               String              @id @default(uuid())
   email            String              @unique
   name             String?
   bio              String?
@@ -34,7 +34,7 @@ model Account {
 }
 
 model Thread {
-  id            Int                 @id @default(autoincrement())
+  id            String              @id @default(uuid())
   title         String?
   lastMessageId String?
   lastMessageAt DateTime?           @map("last_message_at")
@@ -47,8 +47,8 @@ model Thread {
 }
 
 model ThreadParticipant {
-  threadId   Int
-  accountId  Int
+  threadId   String
+  accountId  String
   joinedAt   DateTime  @default(now())
   lastReadId String?
   pinned     Boolean   @default(false)

@@ -10,7 +10,6 @@ import type { ReasoningUIPart, TextUIPart } from '@ai-sdk/ui-utils'
  * @returns       – Normalised UI messages ready for the UI store.
  */
 export default function mapMessages(messages: PersistedMessage[]): UIMessage[] {
-  console.log(messages)
   return messages.map(({ id, role, content, parts }) => {
     const mappedRole = (role === 'tool' ? 'data' : role) as UIMessage['role']
 

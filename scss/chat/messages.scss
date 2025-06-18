@@ -59,6 +59,23 @@ div.message {
     padding: 2px 5px;
     border-radius: 5px;
   }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: $hug 0;
+
+    th,
+    td {
+      padding: 5px 10px;
+      border: $pc-border;
+      text-align: left;
+    }
+
+    th {
+      background: rgba($sc, 0.5);
+    }
+  }
 }
 
 div.model-reasoning {

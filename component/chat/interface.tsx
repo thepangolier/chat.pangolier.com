@@ -20,13 +20,13 @@ export default function ChatInterface({
   const router = useRouter()
   const params = useParams<{ id?: string }>()
   const isThreadRoute = Boolean(params?.id)
-  const [threadId, setThreadId] = useState<number | undefined>(
-    isThreadRoute ? Number(params!.id) : undefined
+  const [threadId, setThreadId] = useState<string | undefined>(
+    isThreadRoute ? params!.id : undefined
   )
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    if (isThreadRoute) setThreadId(Number(params!.id))
+    if (isThreadRoute) setThreadId(params!.id)
   }, [isThreadRoute, params])
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function ChatInterface({
     setIsSubmitting(true)
 
     const payload = await sendMessageAction({
-      threadId: threadId ?? 0,
+      threadId: threadId ?? '',
       senderId: account.id,
       message: { role: 'user', content: input }
     })

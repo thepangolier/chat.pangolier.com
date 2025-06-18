@@ -33,10 +33,10 @@ export default async function verifyAction({
 
     const session = await getSession()
     const rawVerifyId = session.verifyId
-    const accountId = rawVerifyId ? Number(rawVerifyId) : NaN
+    const accountId = rawVerifyId ? String(rawVerifyId) : ''
 
     // Ensure the user is in the middle of a verification flow
-    if (isNaN(accountId)) {
+    if (!accountId) {
       return { ok: false, message: 'Not authenticated for verification' }
     }
 

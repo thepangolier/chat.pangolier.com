@@ -4,13 +4,13 @@ import type { GenericResponse } from '@action/types'
 
 export interface ListThreadsParams {
   /** Account whose threads we want to retrieve */
-  accountId: number
+  accountId: string
   /** Optional case-insensitive query to filter by thread title */
   query?: string
 }
 
 export interface ThreadSummary {
-  id: number
+  id: string
   title: string
   /** The time of the last message in milliseconds since epoch */
   lastMessageAt: number | null
@@ -41,7 +41,8 @@ export async function listThreadsAction({
         ...(query
           ? {
               title: {
-                contains: query
+                contains: query,
+                mode: 'insensitive'
               }
             }
           : {})

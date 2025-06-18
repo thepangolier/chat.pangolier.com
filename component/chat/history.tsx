@@ -1,6 +1,7 @@
 'use client'
 import '@scss/chat/history.scss'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { getThreadMessagesAction } from '@action/chat/[id]'
 import { listThreadsAction, type ThreadSummary } from '@action/chat/list'
@@ -19,9 +20,10 @@ export default function ChatHistory() {
   const [loading, setLoading] = useState(false)
   const [previewLoading, setPreviewLoading] = useState(false)
   const [previewMessages, setPreviewMessages] = useState<PersistedMessage[]>([])
-  const [previewThreadId, setPreviewThreadId] = useState<number | undefined>(
+  const [previewThreadId, setPreviewThreadId] = useState<string | undefined>(
     undefined
   )
+  const pathname = usePathname()
   const debouncedQuery = useDebounce(query, 500)
 
   const handleDocumentClick = useCallback(
@@ -35,18 +37,22 @@ export default function ChatHistory() {
     [setHistoryPopup]
   )
 
-  const fetchPreview = useCallback(async (threadId: number) => {
-    setPreviewLoading(true)
-    setPreviewThreadId(threadId)
-    const res = await getThreadMessagesAction({
-      threadId,
-      limit: 5
-    })
-    if (res.ok && res.result) {
-      setPreviewMessages(res.result)
-    }
-    setPreviewLoading(false)
-  }, [])
+  const fetchPreview = useCallback(
+    async (threadId: string, previewThreadId: string | undefined) => {
+      if (previewThreadId === threadId) return
+      setPreviewLoading(true)
+      setPreviewThreadId(threadId)
+      const res = await getThreadMessagesAction({
+        threadId,
+        limit: 5
+      })
+      if (res.ok && res.result) {
+        setPreviewMessages(res.result)
+      }
+      setPreviewLoading(false)
+    },
+    []
+  )
 
   // Callback to fetch the list of threads based on the current search query
   const fetchThreads = useCallback(async () => {
@@ -59,7 +65,7 @@ export default function ChatHistory() {
       setThreads(res.result)
       // Auto-select and preview the first thread (if any)
       if (res.result.length > 0) {
-        await fetchPreview(res.result[0].id)
+        await fetchPreview(res.result[0].id, undefined)
       } else {
         // Reset preview state when there are no results
         setPreviewMessages([])
@@ -80,6 +86,14 @@ export default function ChatHistory() {
     setLoading(true)
     fetchThreads()
   }, [historyPopup, threads.length, fetchThreads])
+
+  // Hide main loader once navigation to a different route has completed
+  useEffect(() => {
+    if (loading) {
+      setLoading(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
 
   return (
     <div id="history" className={historyPopup ? 'visible' : 'invisible'}>
@@ -117,7 +131,7 @@ export default function ChatHistory() {
                 href={`/chat/thread/${thread.id}`}
                 key={thread.id}
                 className={previewThreadId === thread.id ? 'active' : ''}
-                onMouseEnter={() => fetchPreview(thread.id)}
+                onMouseEnter={() => fetchPreview(thread.id, previewThreadId)}
                 onClick={() => {
                   setHistoryPopup(false)
                 }}
