@@ -54,12 +54,37 @@ div#history {
   }
 
   div.history-data {
+    position: relative;
     display: flex;
     height: 640px;
+
+    div.history-loader {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      background: $panel-bg;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: $pc;
+      transition: opacity 0.2s ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+
+      &.visible {
+        opacity: 1;
+        pointer-events: inherit;
+      }
+    }
 
     div.history-threads {
       width: 360px;
       height: 100%;
+      overflow: hidden auto;
 
       a {
         display: block;
@@ -67,6 +92,7 @@ div#history {
         padding: 5px $hug;
         margin: 10px;
         background: rgba($pc, 0.05);
+        border: 1px solid transparent;
         border-radius: $c-radius;
         transition: all 0.2s ease-in-out;
 
@@ -82,6 +108,26 @@ div#history {
         &:hover {
           background: rgba($pc, 0.1);
         }
+
+        &.active {
+          background: rgba($sc, 1);
+          border-color: $pc;
+          box-shadow: 0 0 15px 5px $g-shadow;
+        }
+      }
+    }
+
+    div.history-preview {
+      position: relative;
+      width: calc(100% - 360px);
+      height: 100%;
+      overflow: hidden auto;
+      padding: $hug;
+
+      div.message {
+        div.message-options {
+          display: none;
+        }
       }
     }
   }
@@ -91,7 +137,7 @@ div#history {
     justify-content: flex-end;
 
     div.history-content {
-      border-radius: $c-radius;;
+      border-radius: $c-radius;
     }
 
     div.history-search {
@@ -113,6 +159,10 @@ div#history {
 
       div.history-threads {
         width: 100%;
+      }
+
+      div.history-preview {
+        display: none;
       }
     }
   }

@@ -6,24 +6,36 @@ Read the full write-up on Pangolier Chat [in this article](https://pangolier.com
 
 ## Why build this?
 
-I was inspired by T3 Chat’s original idea of chat branching and wanted to take it a step further by adding real-time collaboration. Pangolier Chat lets you see other users’ cursors in the interface and view a comprehensive tree of the conversation, including each branch.
+I really like the design elements of T3 Chat, the color composition is much better then any of the big chat UIs. I also like a lot of the concepts from Grok (the header and history components more specifically). Thus, I fused the design elements I really like from T3 Chat and fused it with Grok.
 
-T3 Chat also features strong visual design fundamentals (spacing, padding, and color contrast). I wanted to fuse it together with Grok's design aesthetic and added the "Pangolier" design aesthetic ontop.
+If the project gets visibility, I'll continue working through the SSE implementations and get it closer to "Figma for chat".
 
-I also wanted to showcase that Redis is the most scalable choice for real-time, interactive chat applications, especially with its recent updates for [JSON support](https://redis.io/docs/latest/develop/data-types/json/).
+---
+
+I originally started building this with the intent of demonstrating "Figma for chat". Building off of the original T3 Chat idea of "branching" but taking it a step further where you can share branches with other people and you can interact with a chat tree in real time.
+
+The problem though, is that I did not get enough time to  implement even the baseline SSE where users can sync clients together.
 
 ### Hard-forking Expression
 
-This project evolves the original [Expression](https://pangolier.com/expression) concept into a more production-ready chat application. It ships without the Notion-style editor, which, I think is somewhat ironic, but, really helps keep the Chat UX focused.
+This project evolves the original concepts from [Expression](https://pangolier.com/expression) into a more production-ready chat application. It ships without the Notion-style editor, which, I think is somewhat ironic, but, really helps keep the Chat UX focused.
 
-### Potential Future Scope
+## Future Scope
 
 If people show interest in the project, here are some good ideas:
 
 - Universal Search Tool Call (Google Search API)
 - MCP Remote Server Support
+- Attachments
+- Image Generation
 - Finish Collaborative Features
-- Improve Composability/Tech Debt
+- Syntax Highlighting (with Shiki?)
+- OpenAI Reasoning Support
+- SSE and Real time client sync
+- Resume Streams/Retry
+- **Improve Composability/Tech Debt**
+
+Feel free to pitch in, but, if people want to use this project these are the priority tasks.
 
 ## Quick start
 

@@ -1,17 +1,13 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import {
-  type FormEvent,
-  startTransition,
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
+import { startTransition, useCallback, useEffect, useState } from 'react'
 import { type PersistedMessage, sendMessageAction } from '@action/chat/send'
 import { useChat } from '@ai-sdk/react'
 import Message from '@component/chat/message'
 import PromptBar from '@component/chat/prompt'
+import ChatSplash from '@component/chat/splash'
 import { useSession } from '@context/session'
+import MapMessages from '@util/map'
 
 export interface ChatInterfaceProps {
   initialMessages?: PersistedMessage[]
@@ -37,14 +33,7 @@ export default function ChatInterface({
     if (!isThreadRoute) setThreadId(undefined)
   }, [isThreadRoute])
 
-  const mappedInitial = initialMessages.map(({ id, role, content }) => ({
-    id,
-    role:
-      role === 'tool'
-        ? 'data'
-        : (role as 'system' | 'user' | 'assistant' | 'data'),
-    content: typeof content === 'string' ? content : JSON.stringify(content)
-  }))
+  const mappedInitial = MapMessages(initialMessages)
 
   const {
     messages,
@@ -68,28 +57,24 @@ export default function ChatInterface({
     }
   })
 
-  const onSubmit = useCallback(
-    async (e: FormEvent) => {
-      e.preventDefault()
-      if (!input.trim()) return
-      setIsSubmitting(true)
+  const onSubmit = useCallback(async () => {
+    if (!input.trim()) return
+    setIsSubmitting(true)
 
-      const payload = await sendMessageAction({
-        threadId: threadId ?? 0,
-        senderId: account.id,
-        message: { role: 'user', content: input }
-      })
-      if (!payload.ok) return
+    const payload = await sendMessageAction({
+      threadId: threadId ?? 0,
+      senderId: account.id,
+      message: { role: 'user', content: input }
+    })
+    if (!payload.ok) return
 
-      if (!threadId) setThreadId(payload.result!.threadId)
+    if (!threadId) setThreadId(payload.result!.threadId)
 
-      handleSubmit(undefined, {
-        body: { threadId: threadId ?? payload.result!.threadId }
-      })
-      setIsSubmitting(false)
-    },
-    [threadId, account.id, input, handleSubmit]
-  )
+    handleSubmit(undefined, {
+      body: { threadId: threadId ?? payload.result!.threadId }
+    })
+    setIsSubmitting(false)
+  }, [threadId, account.id, input, handleSubmit])
 
   useEffect(() => {
     if (
@@ -107,10 +92,15 @@ export default function ChatInterface({
       <div className="container chat">
         <div className="message-container">
           {messages.map((m) => (
-            <Message key={m.id} message={m} />
+            <Message
+              key={m.id}
+              message={m}
+              threadId={threadId}
+              status={status}
+            />
           ))}
+          {messages.length === 0 && <ChatSplash setInput={setInput} />}
         </div>
-
         <PromptBar
           status={isSubmitting ? 'submitted' : status}
           error={error}

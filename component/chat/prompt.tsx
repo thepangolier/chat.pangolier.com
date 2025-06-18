@@ -61,7 +61,9 @@ export default function PromptBar({
         className={status}
       >
         <TextareaAutosize
+          id="prompt-input"
           placeholder="Type your message here..."
+          maxRows={20}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {

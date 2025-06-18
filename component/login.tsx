@@ -25,7 +25,7 @@ export default function LoginForm() {
           <Image src={logo} alt="Logo" />
           <h2>Sign In</h2>
         </div>
-        <p>Sign in to an {title} Web Application</p>
+        <p>Sign in to {title}</p>
       </div>
       <div className="login-forms">
         <form

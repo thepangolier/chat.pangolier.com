@@ -1,7 +1,8 @@
-import { type CoreMessage, smoothStream, streamText } from 'ai'
-import buildProviderOptions from '@ai/options'
+import { type CoreMessage, type JSONValue, smoothStream, streamText } from 'ai'
 import persistAssistantMessage from '@ai/persist'
 import getProvider, { type ProviderName } from '@ai/provider'
+import { type GoogleGenerativeAIProviderOptions } from '@ai-sdk/google'
+import { supportsReasoning } from '@util/support'
 
 /**
  * Shape of the request body for the chat endpoint.
@@ -21,6 +22,11 @@ export interface ChatBody {
   useSearchGrounding?: boolean
 }
 
+export type LanguageModelV1ProviderMetadata = Record<
+  string,
+  Record<string, JSONValue>
+>
+
 /**
  * Handles POST requests to the chat API route by streaming AI-generated responses.
  * The request body must conform to {@link ChatBody}. Uses smoothStream to chunk output by word,
@@ -39,23 +45,46 @@ export async function POST(req: Request) {
     useSearchGrounding = false
   } = (await req.json()) as ChatBody
 
+  const providerOptions: LanguageModelV1ProviderMetadata = {}
+
+  if (
+    (provider === 'xai' || provider === undefined) &&
+    supportsReasoning('xai', model)
+  ) {
+    providerOptions.xai = { reasoningEffort: reasoning }
+  }
+
+  if (provider === 'openai' && supportsReasoning('openai', model)) {
+    providerOptions.openai = {
+      reasoningEffort: reasoning,
+      reasoningSummary: 'auto'
+    }
+  }
+
+  if (provider === 'gemini' && supportsReasoning('gemini', model)) {
+    providerOptions.google = {
+      thinkingConfig: {
+        thinkingBudget:
+          reasoning === 'high' ? 2048 : reasoning === 'medium' ? 1024 : 512,
+        includeThoughts: true
+      }
+    } satisfies GoogleGenerativeAIProviderOptions
+  }
+
   const result = streamText({
     system: '',
     model: getProvider({ provider, model, useSearchGrounding }),
-    providerOptions: buildProviderOptions({ provider, model, reasoning }),
+    providerOptions,
     messages,
-    experimental_transform: smoothStream({ chunking: 'word' }),
+    experimental_transform: smoothStream({ delayInMs: 25, chunking: 'word' }),
+    async onFinish({ text, reasoning }) {
+      console.log('Chat Stream Finish', text, reasoning)
+      await persistAssistantMessage(threadId!, text, reasoning)
+    },
     onError({ error }) {
       console.error('Chat Stream Error', error)
     }
   })
-
-  if (threadId) {
-    /* The helper runs completely independently from the HTTP response */
-    persistAssistantMessage(result.text, threadId).catch((err) =>
-      console.error('Failed to persist assistant response', err)
-    )
-  }
 
   return result.toDataStreamResponse({ sendReasoning: true })
 }

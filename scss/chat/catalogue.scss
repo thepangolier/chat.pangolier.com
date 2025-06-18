@@ -6,7 +6,6 @@ div#catalogue {
   bottom: 100%;
   width: calc(100% - calc($hug * 4));
   max-height: calc(100vh - 210px);
-  transition: 0.2s ease-in-out;
   backdrop-filter: blur(10px);
   background: $panel-bg;
   border: $pc-border;
@@ -14,12 +13,14 @@ div#catalogue {
   padding: $hug;
   border-radius: $c-radius $c-radius 0 0;
   box-shadow: 0 0 10px 10px $g-shadow;
-  transform: translateY(0);
   z-index: 3;
   overflow-y: auto;
+  transition: 0.2s ease-in-out;
+  transform: translateY(0);
 
   &.invisible {
-    transform: translateY(100vh);
+    transform: translateY(500px);
+    opacity: 0;
   }
 
   div.cat-main-header {

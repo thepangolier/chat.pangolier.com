@@ -2,12 +2,13 @@ import { notFound } from 'next/navigation'
 import { getThreadMessagesAction } from '@action/chat/[id]'
 import ChatInterface from '@component/chat/interface'
 
-interface ThreadPageProps {
-  params: { id: string }
+export interface ThreadPageProps {
+  params: Promise<{ id: string }>
 }
 
 export default async function ThreadPage({ params }: ThreadPageProps) {
-  const threadId = Number(params.id)
+  const { id } = await params
+  const threadId = Number(id)
   if (Number.isNaN(threadId)) {
     return notFound()
   }
