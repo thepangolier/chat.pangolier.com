@@ -5,7 +5,7 @@
     "dev": "next dev --turbopack",
     "build": "npm run prisma:generate && next build",
     "start": "next start",
-    "prisma:generate": "prisma generate",
+    "prisma:generate": "prisma generate --no-engine",
     "prisma:studio": "prisma studio",
     "prisma:sync": "prisma db push",
     "lint": "eslint . --fix && stylelint 'scss/**/*.scss' --fix",

@@ -7,11 +7,15 @@ export async function middleware(
   const session = await getSession()
   const pathname = req.nextUrl.pathname
   const isAppRoute = pathname.startsWith('/chat')
+  const loginRoute = pathname === '/login' || pathname === '/register'
 
-  if (isAppRoute) {
-    const isLoggedIn = !!session.account?.id
-    if (!isLoggedIn) {
-      return NextResponse.redirect(new URL('/login', req.url))
-    }
+  const isLoggedIn = !!session.account?.id
+
+  if (isAppRoute && !isLoggedIn) {
+    return NextResponse.redirect(new URL('/login', req.url))
+  }
+
+  if (loginRoute && isLoggedIn) {
+    return NextResponse.redirect(new URL('/chat', req.url))
   }
 }

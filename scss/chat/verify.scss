@@ -1,0 +1,25 @@
+@use "@scss/shared/theme" as *;
+@use "@scss/generic/panel" as panel;
+
+div.chat-verify {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 2 * $hug);
+  max-width: calc($chat-width - 2 * $hug);
+  height: auto;
+  top: $c-size;
+  padding: $hug;
+  margin: 0 auto;
+  z-index: 5;
+  background: $panel-bg;
+  border: $pc-border;
+  border-radius: $c-radius;
+  box-shadow: 0 0 20px 10px $g-shadow;
+  text-align: center;
+
+  a {
+    text-decoration: underline;
+  }
+}

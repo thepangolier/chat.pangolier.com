@@ -5,7 +5,9 @@ import { useMemo } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import ModelCatalogue from '@component/chat/catalogue'
 import ChatScroller from '@component/chat/scroller'
+import ChatVerify from '@component/chat/verify'
 import { IconSend, IconSpinner, IconStop } from '@component/shared/icon'
+import { useSession } from '@context/session'
 
 export interface PromptBarProps {
   status: 'submitted' | 'streaming' | 'ready' | 'error'
@@ -28,6 +30,8 @@ export default function PromptBar({
   handleSubmit,
   stop
 }: PromptBarProps) {
+  const { account } = useSession()
+
   const icon = useMemo(() => {
     switch (status) {
       case 'streaming':
@@ -41,6 +45,7 @@ export default function PromptBar({
 
   return (
     <div id="prompt">
+      {account && !account.githubId && !account.googleId && <ChatVerify />}
       {status === 'error' && (
         <div className="prompt-error">
           <p>

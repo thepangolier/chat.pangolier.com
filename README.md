@@ -34,7 +34,6 @@ If people show interest in the project, here are some good ideas:
 - OpenAI Reasoning Support
 - SSE and Real time client sync
 - Resume Streams/Retry
-- Optimize new thread behaviour
 - Optimize caching strategies
 - **Improve Composability/Tech Debt**
 
