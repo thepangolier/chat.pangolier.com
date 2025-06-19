@@ -21,6 +21,7 @@ export default function GoogleSSO({
   const login = useGoogleLogin({
     scope: 'openid email profile',
     async onSuccess(tokenResponse: TokenResponse) {
+      setIsLoading(true)
       const payload = await GoogleLoginAction(tokenResponse)
       if (payload.ok) {
         toast.success(payload.message)
@@ -28,9 +29,11 @@ export default function GoogleSSO({
       } else {
         toast.error(payload.message)
       }
+      setIsLoading(false)
     },
     onError(error) {
       toast.error(error.error_description || 'Failed to login with Google')
+      setIsLoading(false)
     },
     flow: 'implicit'
   })

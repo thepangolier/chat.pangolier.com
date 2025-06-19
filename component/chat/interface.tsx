@@ -1,6 +1,12 @@
 'use client'
-import { useParams, useRouter } from 'next/navigation'
-import { startTransition, useCallback, useEffect, useState } from 'react'
+import { useParams, usePathname, useRouter } from 'next/navigation'
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 import { type PersistedMessage, sendMessageAction } from '@action/chat/send'
 import { useChat } from '@ai-sdk/react'
 import Message from '@component/chat/message'
@@ -18,6 +24,7 @@ export default function ChatInterface({
 }: ChatInterfaceProps) {
   const { account, model, reasoning, useSearchGrounding } = useSession()
   const router = useRouter()
+  const pathname = usePathname()
   const params = useParams<{ id?: string }>()
   const isThreadRoute = Boolean(params?.id)
   const [threadId, setThreadId] = useState<string | undefined>(
@@ -56,6 +63,12 @@ export default function ChatInterface({
       useSearchGrounding
     }
   })
+
+  const getStatus = useMemo(() => {
+    if (pathname === '/chat' && messages.length >= 2) return 'submitted'
+
+    return isSubmitting ? 'submitted' : status
+  }, [pathname, messages.length, isSubmitting, status])
 
   const onSubmit = useCallback(async () => {
     if (!input.trim()) return
@@ -96,13 +109,13 @@ export default function ChatInterface({
               key={m.id}
               message={m}
               threadId={threadId}
-              status={status}
+              status={getStatus}
             />
           ))}
           {messages.length === 0 && <ChatSplash setInput={setInput} />}
         </div>
         <PromptBar
-          status={isSubmitting ? 'submitted' : status}
+          status={getStatus}
           error={error}
           input={input}
           setInput={setInput}

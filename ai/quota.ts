@@ -15,13 +15,16 @@ export async function guardFreeQuota(
 ): Promise<Response | void> {
   const account = await prisma.account.findUnique({
     where: { id: accountId },
-    select: { freeMessagesRemaining: true }
+    select: { githubId: true, googleId: true, freeMessagesRemaining: true }
   })
   if (!account) return new Response('Unauthorized', { status: 401 })
 
-  if (account.freeMessagesRemaining <= 0) {
-    const cta =
-      'You’ve reached the free limit of 5 messages. Fork the full project on GitHub to keep chatting: https://github.com/thepangolier/chat.pangolier.com'
+  const isConnected = Boolean(account.githubId || account.googleId)
+
+  if (account.freeMessagesRemaining <= 0 || !isConnected) {
+    const cta = isConnected
+      ? 'You’ve reached the free limit of 5 messages. Fork the full project on GitHub to keep chatting: https://github.com/thepangolier/chat.pangolier.com'
+      : 'To start chatting, you need to connect with GitHub or Google in [Account Settings](/chat/settings).'
 
     if (threadId) await persistAssistantMessage(threadId, cta)
 
